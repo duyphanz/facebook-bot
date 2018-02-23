@@ -30,8 +30,9 @@ let VERIFY_TOKEN = "ThisIsSecret"
      res.sendStatus(403);      
    }
  } else {
+    throw new Error('Loi roi kia ba ..............');
     res.status(404);
-    console.log('None')
+    
  }
 
 })
