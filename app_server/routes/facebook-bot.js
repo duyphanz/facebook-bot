@@ -29,6 +29,9 @@ let VERIFY_TOKEN = "ThisIsSecret"
      // Responds with '403 Forbidden' if verify tokens do not match
      res.sendStatus(403);      
    }
+ } else {
+    res.status(404);
+    console.log('None')
  }
 
 })
