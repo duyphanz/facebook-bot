@@ -35,6 +35,7 @@ module.exports.fbbot = function (req, res) {
                 if (message.message.text) {
                     var text = message.message.text;
                     console.log(text); // In tin nhắn người dùng
+                    console.log(senderId);
                     callSendAPI(senderId, "Tui là bot đây: " + text);
                 }
             }
