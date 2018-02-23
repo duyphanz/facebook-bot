@@ -1,4 +1,5 @@
 
+var request = require("request");
 
 module.exports.fbAuthToken = function (req, res) {
 
@@ -34,7 +35,7 @@ module.exports.fbbot = function (req, res) {
                 if (message.message.text) {
                     var text = message.message.text;
                     console.log(text); // In tin nhắn người dùng
-                    sendMessage(senderId, "Tui là bot đây: " + text);
+                    callSendAPI(senderId, "Tui là bot đây: " + text);
                 }
             }
         }
@@ -44,20 +45,26 @@ module.exports.fbbot = function (req, res) {
 }
 
 // Gửi thông tin tới REST API để trả lời
-function sendMessage(senderId, message) {
+function callSendAPI(sender_psid, response) {
+    // Construct the message body
+    let request_body = {
+      "recipient": {
+        "id": sender_psid
+      },
+      "message": response
+    }
+  
+    // Send the HTTP request to the Messenger Platform
     request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {
-            access_token: "EAAFnFOO5YesBAMzxxECrX7sCpGMZCnwNDxXzDupHUsk2eA7qAcuUI25lYsHKM8EIHfdpDkiGGD2GZA0Fo2CA0pxbcZAFKr3jW4yVVRIItCRdJ4BYGkfDol9iZCTsPEMkq4bJ53bEheZAIi0v1rhe7dat5HGhCPicJSyjt4WULmNIOrZCIHTBDb",
-        },
-        method: 'POST',
-        json: {
-            recipient: {
-                id: senderId
-            },
-            message: {
-                text: message
-            },
-        }
-    });
-}
+      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "qs": { "access_token": "EAAFnFOO5YesBAOpk5wZBJGuKLk8tu1JdYGaITHoXt3D8WIQfyiSBy8tCimZBZByucZC6do8CY5l3eC9M1ZBFIB7gOd1PqDZANNiPfefblnFTEosEqZAiThyYaTdJbRSm03J6i76HZAEk50CHqZBTPaVZApuMVZAZAgDMPXV6MoYimcsDGzSUQnqRPNfZC" },
+      "method": "POST",
+      "json": request_body
+    }, (err, res, body) => {
+      if (!err) {
+        console.log('message sent!')
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }); 
+  }
