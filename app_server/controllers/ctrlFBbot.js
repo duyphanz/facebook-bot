@@ -1,5 +1,7 @@
 
-var request = require("request");
+var request = require('request');
+var mongoose = require('mongoose')
+var Link = mongoose.model('Link');
 
 module.exports.fbAuthToken = function (req, res) {
 
@@ -37,6 +39,7 @@ module.exports.fbbot = function (req, res) {
                     console.log(text); // In tin nhắn người dùng
                     console.log(senderId);
                     callSendAPI(senderId, "Tui là bot đây: " + text);
+                    addToDB(text);
                 }
             }
         }
@@ -49,25 +52,36 @@ module.exports.fbbot = function (req, res) {
 function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
-      "recipient": {
-        "id": sender_psid
-      },
-      "message": {
-          "text": response
-      }
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": {
+            "text": response
+        }
     }
-  
+
     // Send the HTTP request to the Messenger Platform
     request({
-      "uri": "https://graph.facebook.com/v2.6/me/messages",
-      "qs": { "access_token": "EAAFnFOO5YesBAOpk5wZBJGuKLk8tu1JdYGaITHoXt3D8WIQfyiSBy8tCimZBZByucZC6do8CY5l3eC9M1ZBFIB7gOd1PqDZANNiPfefblnFTEosEqZAiThyYaTdJbRSm03J6i76HZAEk50CHqZBTPaVZApuMVZAZAgDMPXV6MoYimcsDGzSUQnqRPNfZC" },
-      "method": "POST",
-      "json": request_body
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": "EAAFnFOO5YesBAOpk5wZBJGuKLk8tu1JdYGaITHoXt3D8WIQfyiSBy8tCimZBZByucZC6do8CY5l3eC9M1ZBFIB7gOd1PqDZANNiPfefblnFTEosEqZAiThyYaTdJbRSm03J6i76HZAEk50CHqZBTPaVZApuMVZAZAgDMPXV6MoYimcsDGzSUQnqRPNfZC" },
+        "method": "POST",
+        "json": request_body
     }, (err, res, body) => {
-      if (!err) {
-        console.log('message sent!')
-      } else {
-        console.error("Unable to send message:" + err);
-      }
-    }); 
-  }
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
+
+function addToDB(link) {
+    Link.create({
+        address: link,
+    }, (error, link) => {
+        if (error) { console.log('**********Loi add document') } else {
+            console.log(`********Add document thanh cong: ${link}`)
+        }
+
+    });
+}
