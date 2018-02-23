@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 //authen facebook
-router.get('fb-bot', (req, res) => {
+router.get('/fb-bot', (req, res) => {
     
 
 // Your verify token. Should be a random string.
