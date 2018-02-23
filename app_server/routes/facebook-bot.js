@@ -35,3 +35,5 @@ let VERIFY_TOKEN = "ThisIsSecret"
  }
 
 })
+
+module.exports = router;
