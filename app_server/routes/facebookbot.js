@@ -5,5 +5,6 @@ var ctrlFBbot = require('../controllers/ctrlFBbot');
 
 //authen facebook
 router.get('/', ctrlFBbot.fbAuthToken);
+router.post('/', ctrlFBbot.fbbot)
 
 module.exports = router;
