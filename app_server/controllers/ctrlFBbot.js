@@ -48,6 +48,8 @@ module.exports.fbbot = function (req, res) {
     res.status(200).send("OK");
 }
 
+
+
 // Gửi thông tin tới REST API để trả lời
 function callSendAPI(sender_psid, response) {
     // Construct the message body
@@ -85,3 +87,4 @@ function addToDB(link) {
 
     });
 }
+

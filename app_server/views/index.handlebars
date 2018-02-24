@@ -10,7 +10,7 @@
     {{#if links}} <h1>Cos links maf</h1> 
     <ul>
         {{#each links}}
-        <li>{{address}}</li>
+        <li><a href="{{address}}">{{address}}</a> <a href="/delete/{{id}}">DEL</a></li>
         {{/each}}
     </ul>
 
