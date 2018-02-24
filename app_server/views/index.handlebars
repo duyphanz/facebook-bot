@@ -1,0 +1,20 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+</head>
+<body>
+    Hello
+    {{#if links}} <h1>Cos links maf</h1> 
+    <ul>
+        {{#each links}}
+        <li>{{address}}</li>
+        {{/each}}
+    </ul>
+
+    {{/if}}
+    
+</body>
+</html>
