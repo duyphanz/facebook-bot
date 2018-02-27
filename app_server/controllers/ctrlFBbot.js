@@ -93,7 +93,7 @@ function addToDB(link) {
 
 function getTitle (address) {
     request(address, (err, res, body) => {
-        if(err || res.statusCode !== 200) {
+        if(err || res.statusCode != 200) {
             console.log(`Loi get title: ${err}`)
             return null;
         }
