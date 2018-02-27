@@ -1,20 +1,28 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
 </head>
-<body>
-    Hello
-    {{#if links}} <h1>Cos links maf</h1> 
-    <ul>
-        {{#each links}}
-        <li><a href="{{address}}">{{address}}</a> <a href="/delete/{{id}}">DEL</a></li>
-        {{/each}}
-    </ul>
 
-    {{/if}}
-    
+<body>
+    <div class="container">
+        {{#if links}}
+        <h1>List links: </h1>
+        <ul>
+            {{#each links}}
+            <li>
+                <a href="{{address}}">{{address}}</a>
+                <a href="/delete/{{id}}">DEL</a>
+            </li>
+            {{/each}}
+        </ul>
+
+        {{/if}}
+    </div>
+
 </body>
+
 </html>

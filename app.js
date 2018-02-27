@@ -18,8 +18,8 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, '/app_server/views'));
 var hbs = exphdbs.create({
-  defaultLayout: null,
-  layoutsDir: 'app_server/views/layouts'
+  defaultLayout: 'main',
+  layoutsDir: './app_server/views/layouts'
 });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');

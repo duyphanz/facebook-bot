@@ -33,6 +33,6 @@ function getLinkData(res) {
             res.render('error');
         }
         console.log(links)
-        res.render('index', { links: links });
+        res.render("index", { links: links });
     })
 }

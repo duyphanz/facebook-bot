@@ -1,5 +1,6 @@
 
 var request = require('request');
+var cheerio = require('cheerio')
 var mongoose = require('mongoose')
 var Link = mongoose.model('Link');
 
@@ -78,13 +79,25 @@ function callSendAPI(sender_psid, response) {
 }
 
 function addToDB(link) {
+    title = getTitle(link)
     Link.create({
         address: link,
+        title: title,
     }, (error, link) => {
         if (error) { console.log('**********Loi add document') } else {
             console.log(`********Add document thanh cong: ${link}`)
         }
 
     });
+}
+
+function getTitle (address) {
+    request(address, (err, res, body) => {
+        if(err || res.statusCode == 200) console.log(`Loi get title: ${err}`)
+        const $ = cheerio.loaf(body);
+        const webtitle = $('title').text();
+        console.log(`WEBTITLE: ${webtitle}`);
+        return webtitle;
+    })
 }
 
