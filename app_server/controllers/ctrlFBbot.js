@@ -80,7 +80,7 @@ function callSendAPI(sender_psid, response) {
 
 function addToDB(link) {
     webtitle = getTitle(link)
-    Link.create({
+    Link.save({
         address: link,
         title: webtitle
     }, (error, link) => {
@@ -93,7 +93,10 @@ function addToDB(link) {
 
 function getTitle (address) {
     request(address, (err, res, body) => {
-        if(err || res.statusCode !== 200) console.log(`Loi get title: ${err}`)
+        if(err || res.statusCode !== 200) {
+            console.log(`Loi get title: ${err}`)
+            return null;
+        }
         const $ = cheerio.load(body);
         const webtitle = $('title').text();
         console.log(`WEBTITLE: ${webtitle}`);
