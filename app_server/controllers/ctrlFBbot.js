@@ -87,17 +87,18 @@ function addToDB(link) {
         const $ = cheerio.load(body);
         webtitle = $('title').text();
         console.log(`WEBTITLE: ${webtitle}`);
+        Link.create({
+            address: link,
+            title: webtitle
+        }, (error, link) => {
+            if (error) { console.log('**********Loi add document') } else {
+                console.log(`********Add document thanh cong: ${link}`)
+            }
+    
+        });
     })
 
-    Link.create({
-        address: link,
-        title: webtitle
-    }, (error, link) => {
-        if (error) { console.log('**********Loi add document') } else {
-            console.log(`********Add document thanh cong: ${link}`)
-        }
-
-    });
+    
 }
 
 
