@@ -79,10 +79,10 @@ function callSendAPI(sender_psid, response) {
 }
 
 function addToDB(link) {
-    title = getTitle(link)
+    webtitle = getTitle(link)
     Link.create({
         address: link,
-        title: title,
+        title: webtitle
     }, (error, link) => {
         if (error) { console.log('**********Loi add document') } else {
             console.log(`********Add document thanh cong: ${link}`)
