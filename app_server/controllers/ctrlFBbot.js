@@ -79,7 +79,16 @@ function callSendAPI(sender_psid, response) {
 }
 
 function addToDB(link) {
-    webtitle = getTitle(link)
+    var webtitle = null;
+    request(address, (err, res, body) => {
+        if (err || res.statusCode != 200) {
+            console.log(`Loi get title: ${err}`)
+        }
+        const $ = cheerio.load(body);
+        webtitle = $('title').text();
+        console.log(`WEBTITLE: ${webtitle}`);
+    })
+
     Link.create({
         address: link,
         title: webtitle
@@ -91,9 +100,9 @@ function addToDB(link) {
     });
 }
 
-function getTitle (address) {
+function getTitle(address) {
     request(address, (err, res, body) => {
-        if(err || res.statusCode != 200) {
+        if (err || res.statusCode != 200) {
             console.log(`Loi get title: ${err}`)
             return null;
         }
