@@ -80,7 +80,7 @@ function callSendAPI(sender_psid, response) {
 
 function addToDB(link) {
     webtitle = getTitle(link)
-    Link.save({
+    Link.create({
         address: link,
         title: webtitle
     }, (error, link) => {
