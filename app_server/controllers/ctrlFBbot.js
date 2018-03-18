@@ -50,7 +50,7 @@ module.exports.fbbot = function (req, res) {
                                 return new Error('Check Signup error')
                             }
                             if(!user || text === '/help'){
-                                callSendAPI(senderId, Util.botResponse.help)
+                                callSendAPI(senderId, botResponse.help)
                             } else{
                                 callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
                             }
