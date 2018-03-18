@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 require('./links')
+require('./users')
 var GracefullShutdown;
 //connect to mongoosedb
 var dbURI = 'mongodb://chimsaudibao:phanngocduy@ds147118.mlab.com:47118/linkcollection';

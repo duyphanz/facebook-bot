@@ -1,8 +1,10 @@
-var mongoose = require('mongoose');
-var Link = mongoose.model('Link')
-
+//var mongoose = require('mongoose');
+//var Link = mongoose.model('Link')
+const { Link } = require('../models/links')
 
 module.exports.home = function (req, res) {
+    console.log(req.decoded);
+    
     getLinkData(res);
 }
 
@@ -32,7 +34,7 @@ function getLinkData(res) {
             console.log('****Loi get link data');
             res.render('error');
         }
-        console.log(links)
+        //console.log(links)
         res.render("index", { links: links });
     })
 }

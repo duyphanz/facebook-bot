@@ -1,8 +1,11 @@
 
-var request = require('request');
-var cheerio = require('cheerio')
-var mongoose = require('mongoose')
-var Link = mongoose.model('Link');
+const request = require('request');
+const cheerio = require('cheerio')
+//var mongoose = require('mongoose')
+//var Link = mongoose.model('Link');
+const { Link } = require('../models/links')
+const { User } = require('../models/users')
+const {Util, botResponse} = require('./util');
 
 module.exports.fbAuthToken = function (req, res) {
 
@@ -39,17 +42,36 @@ module.exports.fbbot = function (req, res) {
                     var text = message.message.text;
                     console.log(text); // In tin nhắn người dùng
                     console.log(senderId);
-                    callSendAPI(senderId, "Tui là bot đây: " + text);
+
+                    if (senderId) {
+                        //Check signup
+                        User.findOne({userID: senderId}, (err, user) => {
+                            if(err){
+                                return new Error('Check Signup error')
+                            }
+                            if(!user || text === '/help'){
+                                callSendAPI(senderId, Util.botResponse.help)
+                            } else{
+                                callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
+                            }
+                        })
+                            
+                        //callSendAPI(senderId, "Tui là bot đây: " + text);
+                    }
                     addToDB(text);
                 }
             }
         }
     }
 
-    res.status(200).send("OK");
+    //res.status(200).send("OK");
+    Util.sendResponse(res, 200, {
+        "status": 200,
+        "msg": "Added to DB."
+    })
 }
 
-
+function postingFB(){}
 
 // Gửi thông tin tới REST API để trả lời
 function callSendAPI(sender_psid, response) {
@@ -79,14 +101,15 @@ function callSendAPI(sender_psid, response) {
 }
 
 function addToDB(link) {
-    var webtitle = null;
+    var webtitle = 'Gia tri mac dinh';
     request(link, (err, res, body) => {
         if (err || res.statusCode != 200) {
             console.log(`Loi get title: ${err}`)
+        } else {
+            const $ = cheerio.load(body);
+            webtitle = $('title').text();
+            console.log(`WEBTITLE: ${webtitle}`);
         }
-        const $ = cheerio.load(body);
-        webtitle = $('title').text();
-        console.log(`WEBTITLE: ${webtitle}`);
         Link.create({
             address: link,
             title: webtitle
@@ -94,11 +117,11 @@ function addToDB(link) {
             if (error) { console.log('**********Loi add document') } else {
                 console.log(`********Add document thanh cong: ${link}`)
             }
-    
+
         });
     })
 
-    
+
 }
 
 

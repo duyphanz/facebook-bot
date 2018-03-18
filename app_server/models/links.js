@@ -7,4 +7,6 @@ var linkSchema = new mongoose.Schema({
     timestamp: { type: Date, default: Date.now }
 });
 
-mongoose.model('Link', linkSchema);
+var Link = mongoose.model('Link', linkSchema);
+
+module.exports = { Link }

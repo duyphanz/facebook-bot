@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var ctrlApi = require('../controllers/ctrlApi')
+
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.post('/getToken', ctrlApi.getToken);
 
 module.exports = router;
