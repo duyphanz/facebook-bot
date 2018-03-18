@@ -58,7 +58,7 @@ module.exports.fbbot = function (req, res) {
                             
                         //callSendAPI(senderId, "Tui là bot đây: " + text);
                     }
-                    addToDB(text);
+                    //addToDB(text);
                 }
             }
         }
