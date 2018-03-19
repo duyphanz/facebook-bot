@@ -5,8 +5,8 @@ const cheerio = require('cheerio')
 //var Link = mongoose.model('Link');
 const { Link } = require('../models/links')
 const { User } = require('../models/users')
-const {Util, botResponse} = require('./util');
-const {signUp} = require('./ctrlAuth')
+const { Util, botResponse } = require('./util');
+
 
 module.exports.fbAuthToken = function (req, res) {
 
@@ -46,41 +46,35 @@ module.exports.fbbot = function (req, res) {
 
                     if (senderId) {
                         //Check signup
-                        User.findOne({userID: senderId}, (err, user) => {
-                            if(err){
+                        User.findOne({ userID: senderId }, (err, user) => {
+                            const regexCommand = /^(\/\w+).*/g;
+                            const command = regexCommand.exec(text);
+
+                            if (err) {
                                 return new Error('Check Signup error')
                             }
-                            if(!user || text === '/help'){
-                                callSendAPI(senderId, botResponse.help)
-                            } else{
-                                //callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
-                                const regexCommand = /^(\/\w+).*/g;
-                                const command = regexCommand.exec(text);
-                                if (command) return callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
+                            
+                            if (!command) return callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
+                            
+                            if (!user) {
+                                if (text === '/help') return callSendAPI(senderId, botResponse.help)
                                 switch (command[1]) {
-                                    
-
                                     case '/signup':
                                         //const regexParameter = /^(\/\w+)\s+(.*)/g
-                                        const nickname = regex.exec(text)
-                                        if(!nickname[2] || nickname[2].trim() === '') return callSendAPI(senderId, 'Sai cú pháp ròi kìa -_- Gõ /signup [nickname]')
-                                        signUp(senderId, nickname[2], (err) =>{
-                                            if(err){
-                                                console.log(err);
-                                                callSendAPI(senderId, '')
-                                            }
-
-                                        })
+                                        callSendAPI(senderId, 'Click vào đường link sau để đăng ký: https://tuibittat.herokuapp.com/login')
                                         break;
-                                
+
                                     default:
                                         callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
                                         break;
                                 }
+                            }else {
+                                if (text === '/help') return callSendAPI(senderId, botResponse.details)
+                                //callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
 
                             }
                         })
-                            
+
                         //callSendAPI(senderId, "Tui là bot đây: " + text);
                     }
                     //addToDB(text);
@@ -96,7 +90,7 @@ module.exports.fbbot = function (req, res) {
     })
 }
 
-function postingFB(){}
+function postingFB() { }
 
 // Gửi thông tin tới REST API để trả lời
 function callSendAPI(sender_psid, response) {

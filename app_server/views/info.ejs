@@ -1,0 +1,25 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Info</title>
+</head>
+
+<body>
+    <%if(message === 'succeslogin'){%>
+        <p>Đăng ký thành công! Bây giờ bạn đã có thể sử dụng cách chức năng của @tuibittat. Gõ /help để biết thêm thông tin.</p>
+        <p>
+            <a href="/">Chuyển sang trang chủ</a>
+        </p>
+        <%}%>
+    <%if(message === 'nonelogin'){%>
+        <p>Hãy đăng nhập trước khi truy cập trang nhé.</p>
+        <p>
+            <a href="/login">Chuyển sang trang login</a>
+        </p>
+        <%}%>    
+</body>
+
+</html>

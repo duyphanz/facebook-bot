@@ -11,6 +11,11 @@ router.get('/', isLoggedIn, ctrlIndex.home)
 router.get('/error', (req, res) => {
     res.render('error')
 })
+router.get('/successLogin', (req, res) => {
+    res.render('info', {
+        message: 'successlogin'
+    })
+})
 router.get('/login', (req, res) => res.render('login'))
 router.get('/logout', (req, res) => {
     req.logout();

@@ -10,8 +10,10 @@ class Util {
 
 const botResponse = {
     help: `[Hãy bắt đầu sử dụng bằng việc đăng ký 1 tài khoản nha]:
-    /signup [nickname]
-    `
+    /signup và làm theo hướng dẫn.
+    `,
+    details: `Add: 
+    Dasboard: `
 }
 
 module.exports = {Util, botResponse};

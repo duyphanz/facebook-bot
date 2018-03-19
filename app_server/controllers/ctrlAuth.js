@@ -71,7 +71,9 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();
     }
-    res.redirect('/error')
+    res.render('info', {
+        message: 'nonelogin'
+    })
 
 }
 module.exports = {signUp, isLoggedIn}

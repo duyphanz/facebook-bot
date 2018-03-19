@@ -20,10 +20,12 @@ passport.deserializeUser((id, done) => {
     })
 } )
 
+const cbURL = process.env.PORT ? 'https://protected-river-43142.herokuapp.com/auth/fb/cb' : 'http://localhost:3000/auth/fb/cb';
+
 passport.use( new passportFB({
     clientID: '394814394294763',
     clientSecret: 'bdd916fac40827aaaae4cf18ebb30551',
-    callbackURL: 'https://protected-river-43142.herokuapp.com/auth/fb/cb',
+    callbackURL: cbURL,
     profileFields: ['id', 'displayName', 'photos', 'email']
 }, (accessToken, refeshToken, profile, done) => {
     console.log(profile);
