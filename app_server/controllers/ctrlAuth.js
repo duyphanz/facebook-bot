@@ -54,3 +54,24 @@ module.exports.login = (req, res) => {
     })(req, res);
 }
 
+function signUp(userid, nickname, cb){
+
+    var user = new User({
+        userID: userid,
+        name: nickname
+    })
+
+    user.save(err => {
+        if(err) return cb(new Error(err))
+        cb()
+    })
+}
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/error')
+
+}
+module.exports = {signUp, isLoggedIn}

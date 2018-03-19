@@ -9,8 +9,8 @@ class Util {
 }
 
 const botResponse = {
-    help: `+ Đăng ký để bắt đầu sử dụng:
-    #signup [nickname]
+    help: `[Hãy bắt đầu sử dụng bằng việc đăng ký 1 tài khoản nha]:
+    /signup [nickname]
     `
 }
 

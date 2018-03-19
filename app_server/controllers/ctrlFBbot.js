@@ -6,6 +6,7 @@ const cheerio = require('cheerio')
 const { Link } = require('../models/links')
 const { User } = require('../models/users')
 const {Util, botResponse} = require('./util');
+const {signUp} = require('./ctrlAuth')
 
 module.exports.fbAuthToken = function (req, res) {
 
@@ -39,7 +40,7 @@ module.exports.fbbot = function (req, res) {
             if (message.message) {
                 // If user send text
                 if (message.message.text) {
-                    var text = message.message.text;
+                    var text = message.message.text.trim();
                     console.log(text); // In tin nhắn người dùng
                     console.log(senderId);
 
@@ -52,7 +53,31 @@ module.exports.fbbot = function (req, res) {
                             if(!user || text === '/help'){
                                 callSendAPI(senderId, botResponse.help)
                             } else{
-                                callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
+                                //callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
+                                const regexCommand = /^(\/\w+).*/g;
+                                const command = regexCommand.exec(text);
+                                if (command) return callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
+                                switch (command[1]) {
+                                    
+
+                                    case '/signup':
+                                        //const regexParameter = /^(\/\w+)\s+(.*)/g
+                                        const nickname = regex.exec(text)
+                                        if(!nickname[2] || nickname[2].trim() === '') return callSendAPI(senderId, 'Sai cú pháp ròi kìa -_- Gõ /signup [nickname]')
+                                        signUp(senderId, nickname[2], (err) =>{
+                                            if(err){
+                                                console.log(err);
+                                                callSendAPI(senderId, '')
+                                            }
+
+                                        })
+                                        break;
+                                
+                                    default:
+                                        callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
+                                        break;
+                                }
+
                             }
                         })
                             

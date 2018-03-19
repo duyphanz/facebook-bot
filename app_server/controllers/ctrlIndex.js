@@ -3,7 +3,7 @@
 const { Link } = require('../models/links')
 
 module.exports.home = function (req, res) {
-    console.log(req.decoded);
+    //console.log(req.decoded);
     
     getLinkData(res);
 }

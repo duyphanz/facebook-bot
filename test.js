@@ -9,6 +9,11 @@
 
 //------------------------
 
-const {botResponse} = require('./app_server/controllers/util')
+var test = '/signup tuibittat'
 
-console.log(botResponse.help);
+var regex = /^(\/\w+)\s(.*)/g
+
+var match = regex.exec(test);
+
+console.log(match);
+

@@ -1,19 +1,58 @@
 
+
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const mongoose = require('mongoose');
+const passportFB = require('passport-facebook').Strategy
+const {User} = require('../models/users')
 
-var User = mongoose.model('User');
+passport.serializeUser((user, done) => {
+    console.log('Serialize: ', user)
+    if(!user) return done(new Error('Can not serialize user.'))
+    done(null, user.userID);
+})
 
-passport.use(new LocalStrategy({
-    usernameField: 'email'
-}, (username, password, done) => {
-    User.findOne({email: username}, (err, user) => {
+passport.deserializeUser((id, done) => {
+    User.findOne({
+        userID: id
+    }, (err, user) => {
         if(err) return done(err);
-        if(!user) return done(null, false, {message: 'Incorrect username.'});
-        console.log(password);
-        
-        if(!user.validPassword(password)) return done(null, false, {message: 'Incorect password.'});
-        return done(null, user);
+        if(!user) return done(new Error('Can not deserialize user'))
+        done(null,user)
     })
-}));
+} )
+
+passport.use( new passportFB({
+    clientID: '394814394294763',
+    clientSecret: 'bdd916fac40827aaaae4cf18ebb30551',
+    callbackURL: 'https://protected-river-43142.herokuapp.com/auth/fb/cb',
+    profileFields: ['id', 'displayName', 'photos', 'email']
+}, (accessToken, refeshToken, profile, done) => {
+    console.log(profile);
+    
+    const {id, name, email} = profile._json;
+    console.log(id, name, email);
+    
+    User.findOne({
+        userID: id
+    }, (err, user) => {
+        if(err) return done(err);
+        if(user) return done(null, user);
+        //create new user if didn't exist
+        const newUser = new User({
+            userID: id,
+            name,
+            email
+        })
+
+        newUser.save((err, u) => {
+            console.log('Creat newUser', u);
+            if(err) {
+                console.log('Loi creat user', err)
+                return done(err)
+            }
+            done(null, newUser)
+        })
+    })
+}))
+
+
+
