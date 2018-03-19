@@ -31,8 +31,10 @@ module.exports.fbAuthToken = function (req, res) {
 }
 
 module.exports.fbbot = function (req, res) {
-
+    
+    
     var entries = req.body.entry;
+    console.log(entries);
     for (var entry of entries) {
         var messaging = entry.messaging;
         for (var message of messaging) {
@@ -57,6 +59,7 @@ module.exports.fbbot = function (req, res) {
                             if (!command) return callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
                             
                             if (!user) {
+                                //console.log('No user')
                                 if (text === '/help') return callSendAPI(senderId, botResponse.help)
                                 switch (command[1]) {
                                     case '/signup':
@@ -69,7 +72,14 @@ module.exports.fbbot = function (req, res) {
                                         break;
                                 }
                             }else {
-                                if (text === '/help') return callSendAPI(senderId, botResponse.details)
+                                //console.log('user: ', user)
+                                if (text === '/help') 
+                                {
+                                    return callSendAPI(senderId, botResponse.details)
+                                }
+                                else {
+                                return callSendAPI(senderId, 'Gõ /help để xem thông tin chức năng nhé')
+                                }
                                 //callSendAPI(senderId, 'Gõ /help để xem cách sử dụng.')
 
                             }
