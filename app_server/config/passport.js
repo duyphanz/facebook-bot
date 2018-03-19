@@ -20,7 +20,7 @@ passport.deserializeUser((id, done) => {
     })
 } )
 
-const cbURL = process.env.PORT ? 'https://protected-river-43142.herokuapp.com/auth/fb/cb' : 'http://localhost:3000/auth/fb/cb';
+const cbURL = process.env.PORT ? 'https://tuibittat.herokuapp.com/auth/fb/cb' : 'http://localhost:3000/auth/fb/cb';
 
 passport.use( new passportFB({
     clientID: '394814394294763',
