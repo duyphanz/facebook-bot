@@ -48,7 +48,7 @@ module.exports.fbbot = function (req, res) {
 
                     if (senderId) {
                         //Check signup
-                        User.findOne({ userID: senderId }, (err, user) => {
+                        User.findOne({ botID: senderId }, (err, user) => {
                             const regexCommand = /^(\/\w+).*/g;
                             const command = regexCommand.exec(text);
 
@@ -66,37 +66,36 @@ module.exports.fbbot = function (req, res) {
                                         //const regexParameter = /^(\/\w+)\s+(.*)/g
                                         callSendAPI(senderId, 'Click vào đường link sau để đăng ký: https://tuibittat.herokuapp.com/login')
                                         break;
+                                    case '/active':
 
+                                        if (user.botID != 'default') return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')
+                                        const regexParameter = /^(\/\w+)\s+(.*)/g
+                                        const parameter = regexParameter.exec(text);
+                                        const keycode = parameter[2];
+                                        if (!keycode || keycode === 'default') return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
+                                        User.findOneAndUpdate({
+                                            hash: keycode
+                                        }, {
+                                                botID: senderId
+                                            }, (err, user) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return callSendAPI(senderId, 'Đã có lỗi, vui lòng thực hiện lại.')
+                                                }
+                                                if (!user) {
+                                                    return callSendAPI(senderId, 'Keycode sai rồi, kiểm tra keycode và kích hoạt lại nha.')
+                                                }
+                                                callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name);
+                                            })
+                                        //----------
+
+                                        break;
                                     default:
-                                        callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
+                                        callSendAPI(senderId, 'Bạn chưa đăng ký hoặc kích hoạt @bot. Gõ /help để được hướng dẫn nhé.')
                                         break;
                                 }
                             } else {
-                                //Thuc hien active bot
-                                if (command[1] === '/active') {
-                                    if (user.botID != 'default') return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')
-                                    const regexParameter = /^(\/\w+)\s+(.*)/g
-                                    const parameter = regexParameter.exec(text);
-                                    const keycode = parameter[2];
-                                    if(!keycode || keycode === 'default') return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
-                                    User.findOneAndUpdate({
-                                        hash: keycode
-                                    }, {
-                                            botID: senderId
-                                        }, (err, user) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return callSendAPI(senderId, 'Đã có lỗi, vui lòng thực hiện lại.')
-                                            }
-                                            if (!user) {
-                                                return callSendAPI(senderId, 'Keycode sai rồi, kiểm tra keycode và kích hoạt lại nha.')
-                                            }
-                                            callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name);
-                                        })
-                                    //----------
-
-                                }
-                                if (user.botID === 'default') return callSendAPI(senderId, 'Bạn đã đăng ký @tuibittat nhưng chưa kích hoạt @bot. Gõ /active [keycode] để kích hoạt @bot và bắt đầu sử dụng nhé.')
+                                //User da kich hoat bot
 
                                 if (text === '/help') {
                                     return callSendAPI(senderId, botResponse.details)

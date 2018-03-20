@@ -41,7 +41,7 @@ router.get('/auth/fb/cb', (req, res) => {
                 console.log('Loi dang nhap1: ', err)
                 return res.redirect('/error')
             }
-            if(!user.botID) return res.redirect('/info', {
+            if(user.botID === 'default') return res.render('/info', {
                 message: 'keycode',
                 keycode: user.hash
             })

@@ -9,8 +9,10 @@ class Util {
 }
 
 const botResponse = {
-    help: `[Hãy bắt đầu sử dụng bằng việc đăng ký 1 tài khoản nha]:
-    /signup và làm theo hướng dẫn.
+    help: `1. Đăng nhập để nhận keycode kích hoạt @bot nhé:
+    --> Gõ: /signup 
+    2. Kích hoạt @bot bằng keycode nhận được:
+    --> Gõ: /active keycode
     `,
     details: `Add: 
     Dasboard: `
