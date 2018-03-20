@@ -43,7 +43,7 @@ passport.use( new passportFB({
             userID: id,
             name,
             email,
-            botID: ''
+            botID: null,
         })
         newUser.setHash();
         newUser.save((err, u) => {
