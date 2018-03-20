@@ -66,6 +66,7 @@ module.exports.fbbot = function (req, res) {
                                     case '/active':   
                                         const regexParameter = /^(\/\w+)\s+(.*)/g
                                         const parameter = regexParameter.exec(text);
+                                        if(!parameter) return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
                                         const keycode = parameter[2];
                                         if (!keycode || keycode === 'default') return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
                                         User.findOneAndUpdate({
