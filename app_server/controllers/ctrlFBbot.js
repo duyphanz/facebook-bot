@@ -56,7 +56,7 @@ module.exports.fbbot = function (req, res) {
                                 return new Error('Check Signup error')
                             }
 
-                            if (!command) return callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
+                            if (!command) return callSendAPI(senderId, 'Hình như bạn chưa đăng nhập hoặc kích hoạt @bot. Gõ /help để xem cách sử dụng đi ba.')
 
                             if (!user) {
                                 //console.log('No user')
