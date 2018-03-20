@@ -42,9 +42,10 @@ passport.use( new passportFB({
         const newUser = new User({
             userID: id,
             name,
-            email
+            email,
+            botID: ''
         })
-
+        newUser.setHash();
         newUser.save((err, u) => {
             console.log('Creat newUser', u);
             if(err) {

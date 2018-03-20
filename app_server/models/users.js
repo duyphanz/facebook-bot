@@ -11,6 +11,11 @@ var userSchema = new mongoose.Schema({
         unique:true,
         required: true
     },
+    botID: {
+        type: String,
+        trim: true,
+        required:true
+    },
     email: {
         type: String,
         //unique: true,
@@ -31,13 +36,13 @@ var userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.methods.setPassword = function(password) {
+userSchema.methods.setHash = function() {
 
     this.salt = crypto.randomBytes(16).toString('hex');
     //console.log('Salt: ', this.salt);
 
     //this.hash = crypto.pbkdf2Sync(password, new Buffer(this.salt, 'binary'), 1000, 64).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, new Buffer(this.salt, 'base64'), 1000, 64, 'sha1').toString('hex');
+    //this.hash = crypto.pbkdf2Sync(password, new Buffer(this.salt, 'base64'), 1000, 64, 'sha1').toString('hex');
     //console.log('Hash: ', this.hash);
 
 
