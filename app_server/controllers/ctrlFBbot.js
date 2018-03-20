@@ -119,7 +119,7 @@ module.exports.fbbot = function (req, res) {
                                             // if (!parameterAdd) {
                                             //     //add
                                             // }
-
+                                            break;
                                         default:
                                             callSendAPI(senderId, 'Cú pháp không được hỗ trợ. Gõ /help để được hướng dẫn nhé.')
                                             break;
