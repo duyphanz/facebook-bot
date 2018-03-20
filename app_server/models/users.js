@@ -3,6 +3,12 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var { secret } = require('../config/config')
 
+var linkSchema = new mongoose.Schema({
+    directory: String,
+    address: String,
+    title: String,
+    timestamp: { type: Date, default: Date.now }
+});
 
 var userSchema = new mongoose.Schema({
     userID: {
@@ -33,7 +39,9 @@ var userSchema = new mongoose.Schema({
     salt: {
         type: String,
         //required: true
-    }
+    },
+    link: [linkSchema],
+    directory: [String],
 });
 
 userSchema.methods.setHash = function() {
@@ -70,5 +78,5 @@ userSchema.methods.generateJwt = function() {
 };
 
 var User = mongoose.model('User', userSchema);
-
-module.exports = { User }
+var Link = mongoose.model('Link', linkSchema);
+module.exports = { User, Link }

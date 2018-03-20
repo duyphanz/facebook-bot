@@ -9,6 +9,9 @@
 
 <body>
     <div class="container">
+        <%if(name){%>
+            <h2>Hi <%= name%>, <a href="/logout">Logout</a></h2>
+        <%}%>
         <%if(links) {%>
             <h1>List links: </h1>
             <ul>

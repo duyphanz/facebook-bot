@@ -39,13 +39,17 @@ passport.use( new passportFB({
         if(err) return done(err);
         if(user) return done(null, user);
         //create new user if didn't exist
+
         const newUser = new User({
             userID: id,
             name,
             email,
-            botID: 'default'
+            botID: 'default',
+            link: [],
+            directory: []
         })
         newUser.setHash();
+
         newUser.save((err, u) => {
             console.log('Creat newUser', u);
             if(err) {

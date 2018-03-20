@@ -16,8 +16,11 @@ const botResponse = {
     *B2. Kích hoạt @bot bằng keycode nhận được:*
     --> Gõ: /active keycode
     `,
-    details: `Add: 
-    Dasboard: `
+    details: 
+    `
+    1. Add link: /a link 
+    2. Truy cập trang quản lý link: https://tuibittat.herokuapp.com/
+    `
 }
 
 module.exports = {Util, botResponse};

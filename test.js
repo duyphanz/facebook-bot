@@ -9,9 +9,9 @@
 
 //------------------------
 
-var test = '/signup tuibittat'
+var test = '+abc.com -s'
 
-var regex = /^(\/\w+)\s(.*)/g
+var regex = /^\+(.*)\s](-s)?/g
 
 var match = regex.exec(test);
 

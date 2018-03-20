@@ -1,11 +1,10 @@
 //var mongoose = require('mongoose');
 //var Link = mongoose.model('Link')
-const { Link } = require('../models/links')
+const { User } = require('../models/users')
 
 module.exports.home = function (req, res) {
     //console.log(req.decoded);
-    
-    getLinkData(res);
+    getLinkData(res, req.user.botID, req.user.name);
 }
 
 module.exports.deleteOneLink = function (req, res) {
@@ -28,13 +27,13 @@ module.exports.deleteOneLink = function (req, res) {
         res.status(404);
     }
 }
-function getLinkData(res) {
-    Link.find({}, (err, links) => {
+function getLinkData(res, botID, name) {
+    User.find({botID}, (err, links) => {
         if (err) {
             console.log('****Loi get link data');
             res.render('error');
         }
         //console.log(links)
-        res.render("index", { links: links });
+        res.render("index", { links, name});
     })
 }
