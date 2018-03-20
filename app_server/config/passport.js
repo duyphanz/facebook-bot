@@ -5,7 +5,7 @@ const passportFB = require('passport-facebook').Strategy
 const {User} = require('../models/users')
 
 passport.serializeUser((user, done) => {
-    console.log('Serialize: ', user)
+    //console.log('Serialize: ', user)
     if(!user) return done(new Error('Can not serialize user.'))
     done(null, user.userID);
 })
@@ -28,10 +28,10 @@ passport.use( new passportFB({
     callbackURL: cbURL,
     profileFields: ['id', 'displayName', 'photos', 'email']
 }, (accessToken, refeshToken, profile, done) => {
-    console.log(profile);
+    //console.log(profile);
     
     const {id, name, email} = profile._json;
-    console.log(id, name, email);
+    //console.log(id, name, email);
     
     User.findOne({
         userID: id
@@ -51,7 +51,7 @@ passport.use( new passportFB({
         newUser.setHash();
 
         newUser.save((err, u) => {
-            console.log('Creat newUser', u);
+            //console.log('Creat newUser', u);
             if(err) {
                 console.log('Loi creat user', err)
                 return done(err)

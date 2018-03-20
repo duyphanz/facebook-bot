@@ -28,13 +28,13 @@ module.exports.deleteOneLink = function (req, res) {
     }
 }
 function getLinkData(res, botID, name) {
-    User.find({botID}, (err, user) => {
+    User.findOne({botID}, (err, user) => {
         if (err) {
             console.log('****Loi get link data');
             res.render('error');
         }
         const links = user.link;
-        //console.log(links)
+        //console.log('Link truyen zo hom ne: ', links)
         res.render("index", { links, name});
     })
 }
