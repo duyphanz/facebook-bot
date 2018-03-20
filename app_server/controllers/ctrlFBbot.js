@@ -62,10 +62,7 @@ module.exports.fbbot = function (req, res) {
                                 //console.log('No user')
                                 if (text === '/help') return callSendAPI(senderId, botResponse.help)
                                 switch (command[1]) {
-                                    case '/signup':
-                                        //const regexParameter = /^(\/\w+)\s+(.*)/g
-                                        callSendAPI(senderId, 'Click vào đường link sau để đăng ký: https://tuibittat.herokuapp.com/login')
-                                        break;
+                                    
                                     case '/active':
 
                                         if (user.botID != 'default') return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')

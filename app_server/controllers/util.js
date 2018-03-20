@@ -11,7 +11,7 @@ class Util {
 const botResponse = {
     help: 
     `1. Đăng nhập để nhận keycode kích hoạt @bot nhé:
-    --> Gõ: /signup 
+    --> Click vào đường link sau để đăng ký: https://tuibittat.herokuapp.com/login 
     2. Kích hoạt @bot bằng keycode nhận được:
     --> Gõ: /active keycode
     `,
