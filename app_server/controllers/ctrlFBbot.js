@@ -74,7 +74,7 @@ module.exports.fbbot = function (req, res) {
                             }else {
                                 //Thuc hien active bot
                                 if(command[1] === '/active'){
-                                    if(user.botID) return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')
+                                    if(user.botID != 'default') return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')
                                     const regexParameter = /^(\/\w+)\s+(.*)/g
                                     const parameter = regexParameter.exec(text);
                                     const keycode = parameter[2];
@@ -96,7 +96,7 @@ module.exports.fbbot = function (req, res) {
                                     //----------
                                     
                                 }
-                                if(!user.botID) return callSendAPI(senderId, 'Bạn đã đăng ký @tuibittat nhưng chưa kích hoạt @bot. Gõ /active [keycode] để kích hoạt @bot và bắt đầu sử dụng nhé.' )
+                                if(user.botID === 'default') return callSendAPI(senderId, 'Bạn đã đăng ký @tuibittat nhưng chưa kích hoạt @bot. Gõ /active [keycode] để kích hoạt @bot và bắt đầu sử dụng nhé.' )
                                 
                                 if (text === '/help') 
                                 {
