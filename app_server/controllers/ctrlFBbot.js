@@ -56,7 +56,7 @@ module.exports.fbbot = function (req, res) {
                                 return new Error('Check Signup error')
                             }
 
-                            if (!command) return callSendAPI(senderId, 'Hình như bạn chưa đăng nhập hoặc kích hoạt @bot. Gõ /help để xem cách sử dụng đi ba.')
+                            if (!command) return callSendAPI(senderId, "_Mình chỉ làm theo lệnh, không trả lời linh tinh đâu hix :'( . Gõ /help để xem cách #nguocdai mình nhé hehe._")
 
                             if (!user) {
                                 //console.log('No user')
@@ -68,7 +68,7 @@ module.exports.fbbot = function (req, res) {
                                         const parameter = regexParameter.exec(text);
                                         if(!parameter) return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
                                         const keycode = parameter[2];
-                                        if (!keycode || keycode === 'default') return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
+                                        if (!keycode || keycode === 'default') return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi kìa -_-');
                                         User.findOneAndUpdate({
                                             salt: keycode
                                         }, {
@@ -81,7 +81,7 @@ module.exports.fbbot = function (req, res) {
                                                 if (!user) {
                                                     return callSendAPI(senderId, 'Keycode sai rồi, kiểm tra keycode và kích hoạt lại nha.')
                                                 }
-                                                callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name);
+                                                callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name + ':D');
                                             })
                                         //----------
 
