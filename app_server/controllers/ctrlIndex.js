@@ -28,11 +28,12 @@ module.exports.deleteOneLink = function (req, res) {
     }
 }
 function getLinkData(res, botID, name) {
-    User.find({botID}, (err, links) => {
+    User.find({botID}, (err, user) => {
         if (err) {
             console.log('****Loi get link data');
             res.render('error');
         }
+        const links = user.link;
         //console.log(links)
         res.render("index", { links, name});
     })
