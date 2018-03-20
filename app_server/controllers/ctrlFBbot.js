@@ -116,6 +116,7 @@ module.exports.fbbot = function (req, res) {
                                             if (!getLink) return callSendAPI(senderId, 'Sai cú pháp add link bot rồi kìa -_-');
                                             addToDB(getLink, senderId);
                                             postingFB(getLink, user);
+                                            callSendAPI(senderId, 'Đã thêm link và share lên trang chủ @tuibittat thành công rồi nhé chủ nhơn :)');
                                             // if (!parameterAdd) {
                                             //     //add
                                             // }
