@@ -43,7 +43,7 @@ router.get('/auth/fb/cb', (req, res) => {
             }
             if(user.botID === 'default') return res.render('info', {
                 message: 'keycode',
-                keycode: user.hash
+                keycode: user.salt
             })
             res.redirect('/')
         });
