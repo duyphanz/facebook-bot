@@ -31,8 +31,8 @@ module.exports.fbAuthToken = function (req, res) {
 }
 
 module.exports.fbbot = function (req, res) {
-    
-    
+
+
     var entries = req.body.entry;
     //console.log(entries.json());
     for (var entry of entries) {
@@ -55,9 +55,9 @@ module.exports.fbbot = function (req, res) {
                             if (err) {
                                 return new Error('Check Signup error')
                             }
-                            
+
                             if (!command) return callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
-                            
+
                             if (!user) {
                                 //console.log('No user')
                                 if (text === '/help') return callSendAPI(senderId, botResponse.help)
@@ -71,42 +71,41 @@ module.exports.fbbot = function (req, res) {
                                         callSendAPI(senderId, 'Viết gì zậy má???. Gõ /help để xem cách sử dụng đi ba.')
                                         break;
                                 }
-                            }else {
+                            } else {
                                 //Thuc hien active bot
-                                if(command[1] === '/active'){
-                                    if(user.botID != 'default') return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')
+                                if (command[1] === '/active') {
+                                    if (user.botID != 'default') return callSendAPI(senderId, 'Bạn đã kích hoạt @bot rồi mà bro??')
                                     const regexParameter = /^(\/\w+)\s+(.*)/g
                                     const parameter = regexParameter.exec(text);
                                     const keycode = parameter[2];
+                                    if(!keycode || keycode === 'default') return callSendAPI(senderId, 'Sai cú pháp kich hoạt bot rồi nhé :)');
                                     User.findOneAndUpdate({
                                         hash: keycode
-                                    },{
-                                        botID: senderId
-                                    }, (err, user) => {
-                                        if(err) 
-                                        {
-                                            console.log(err);
-                                            return callSendAPI(senderId, 'Đã có lỗi, vui lòng thực hiện lại.')
-                                        }
-                                        if(!user){
-                                            return callSendAPI(senderId, 'Keycode sai rồi, kiểm tra keycode và kích hoạt lại nha.')
-                                        }
-                                        callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name);
-                                    })
+                                    }, {
+                                            botID: senderId
+                                        }, (err, user) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return callSendAPI(senderId, 'Đã có lỗi, vui lòng thực hiện lại.')
+                                            }
+                                            if (!user) {
+                                                return callSendAPI(senderId, 'Keycode sai rồi, kiểm tra keycode và kích hoạt lại nha.')
+                                            }
+                                            callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name);
+                                        })
                                     //----------
-                                    
+
                                 }
-                                if(user.botID === 'default') return callSendAPI(senderId, 'Bạn đã đăng ký @tuibittat nhưng chưa kích hoạt @bot. Gõ /active [keycode] để kích hoạt @bot và bắt đầu sử dụng nhé.' )
-                                
-                                if (text === '/help') 
-                                {
+                                if (user.botID === 'default') return callSendAPI(senderId, 'Bạn đã đăng ký @tuibittat nhưng chưa kích hoạt @bot. Gõ /active [keycode] để kích hoạt @bot và bắt đầu sử dụng nhé.')
+
+                                if (text === '/help') {
                                     return callSendAPI(senderId, botResponse.details)
                                 }
                                 else {
-                                //Xu lu chuc nang
-                                return callSendAPI(senderId, 'Gõ /help để xem thông tin chức năng nhé')
+                                    //Xu lu chuc nang
+                                    return callSendAPI(senderId, 'Gõ /help để xem thông tin chức năng nhé')
                                 }
-                               
+
 
                             }
                         })
