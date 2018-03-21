@@ -7,9 +7,9 @@ const cheerio = require('cheerio')
 //const { Link } = require('../models/links')
 const { User, Link } = require('../models/users')
 const { Util, botResponse } = require('./util');
+const config = require('../config/config')
 
-
-module.exports.fbAuthToken = function (req, res) {
+function fbAuthToken(req, res) {
 
     let VERIFY_KEY = 'ThisIsSecret';
 
@@ -31,7 +31,7 @@ module.exports.fbAuthToken = function (req, res) {
 
 }
 
-module.exports.fbbot = function (req, res) {
+function fbbot(req, res) {
 
 
     var entries = req.body.entry;
@@ -106,20 +106,28 @@ module.exports.fbbot = function (req, res) {
                                     switch (command[1]) {
                                         case '/a':
                                             //share regex
-                                            // const regexAdd = /\s-s/g;
-                                            // const parameterAdd = regexAdd.exec(text);
+                                            var linkState = 'private';
+                                            const regexShare = /\s-s/g;
+                                            const parameterShare = regexShare.exec(text);
+                                            if (parameterShare) {
+                                                //set state tu private -> pending
+                                                linkState = 'pending';
+                                            }
                                             //---
-                                            const regexParameter = /^(\/\w+)\s+(.*)/g
+                                            const regexParameter = /^\/a\s([^\s]+)/g
                                             const parameter = regexParameter.exec(text);
                                             if (!parameter) return callSendAPI(senderId, 'Sai cú pháp add link bot rồi nhé :)');
-                                            const getLink = parameter[2];
+                                            const getLink = parameter[1];
                                             if (!getLink) return callSendAPI(senderId, 'Sai cú pháp add link bot rồi kìa -_-');
-                                            addToDB(getLink, senderId);
-                                            postingFB(getLink, user);
-                                            callSendAPI(senderId, 'Đã thêm link và share lên trang chủ @tuibittat thành công rồi nhé chủ nhơn :)');
-                                            // if (!parameterAdd) {
-                                            //     //add
-                                            // }
+                                            addToDB(getLink, senderId, linkState, (err, state) => {
+                                                if (!err) {
+                                                    if(state === 'private')
+                                                    return callSendAPI(senderId, 'Đã thêm link thành công rồi nhé chủ nhơn :)');
+                                                }
+                                                callSendAPI(senderId, 'Đã thêm link thành công và chờ duyệt chia sẻ lên trang chủ @tuibittat rồi nhé chủ nhơn :)');
+                                            });
+                                            //
+                                            
                                             break;
                                         default:
                                             callSendAPI(senderId, 'Cú pháp không được hỗ trợ. Gõ /help để được hướng dẫn nhé.')
@@ -151,7 +159,7 @@ module.exports.fbbot = function (req, res) {
 function postingFB(link, user) {
     const desc = 'Shared by ' + user.name;
     request({
-        "uri": "https://graph.facebook.com/194442694037009/feed?message=" + desc + "&link=" + link + "&access_token=EAAFnFOO5YesBABMMRNUWk4nRgYdWacvP0mKRaOiwnC1FJQ3yN2fpD9hHaTNQCEqHiNx5VSCmDxKU2W87qa4xRqZC0o46ZCEqN4mTXrHZBOnQOmhnnikMYBqlNOon9BPxU8TdPvPNuyHn28xQoPZCsLRyj8q08DU5HVG8ZClsjxsZAziefT3lbEYMeZBSHdlOxoZD",
+        "uri": "https://graph.facebook.com/194442694037009/feed?message=" + desc + "&link=" + link + "&access_token=" + config.pageToken,
         "method": "POST",
     }, (err, res, body) => {
         if (!err) {
@@ -160,7 +168,7 @@ function postingFB(link, user) {
             console.error("Unable to share link:" + err);
         }
     })
- }
+}
 
 // Gửi thông tin tới REST API để trả lời
 function callSendAPI(sender_psid, response) {
@@ -177,7 +185,7 @@ function callSendAPI(sender_psid, response) {
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": "EAAFnFOO5YesBAOpk5wZBJGuKLk8tu1JdYGaITHoXt3D8WIQfyiSBy8tCimZBZByucZC6do8CY5l3eC9M1ZBFIB7gOd1PqDZANNiPfefblnFTEosEqZAiThyYaTdJbRSm03J6i76HZAEk50CHqZBTPaVZApuMVZAZAgDMPXV6MoYimcsDGzSUQnqRPNfZC" },
+        "qs": { "access_token": config.pageToken },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
@@ -191,7 +199,7 @@ function callSendAPI(sender_psid, response) {
 
 
 
-function addToDB(link, botID) {
+function addToDB(link, botID, linkState, cb) {
     var webtitle = link;
     request(link, (err, res, body) => {
         if (err || res.statusCode != 200) {
@@ -212,6 +220,8 @@ function addToDB(link, botID) {
 
         // });
         const newLink = new Link({
+            botID,
+            state: linkState,
             directory: 'root',
             address: link,
             title: webtitle
@@ -222,7 +232,11 @@ function addToDB(link, botID) {
             if (!user) return console.log('Add link cannot find user')
             user.link.push(newLink);
             user.save((err) => {
-                if (err) return console.log(err);
+                if (err) {
+                    console.log(err);
+                    return cb(err)
+                }
+                cb(null, linkState)
             })
         })
     })
@@ -231,4 +245,4 @@ function addToDB(link, botID) {
 }
 
 
-
+module.exports = { fbAuthToken, fbbot, postingFB, callSendAPI }

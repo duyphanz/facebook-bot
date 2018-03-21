@@ -9,11 +9,23 @@
 
 //------------------------
 
-var test = '+abc.com -s'
+// var test = '+abc.com -s'
 
-var regex = /^\+(.*)\s](-s)?/g
+// var regex = /^\+(.*)\s](-s)?/g
 
-var match = regex.exec(test);
+// var match = regex.exec(test);
+//============
 
-console.log(match);
+// var test = ['a', 'b', 'c']
+
+// for (var e of test){
+//     console.log(e)
+//     if(e === 'a')
+//     {
+//         delete e;
+//         break;
+//     }
+// }
+
+// console.log(test);
 

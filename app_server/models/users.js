@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 var { secret } = require('../config/config')
 
 var linkSchema = new mongoose.Schema({
+    botID: String,
+    state: String, //reject|approved|pending|private
     directory: String,
     address: String,
     title: String,

@@ -18,6 +18,7 @@ require('./app_server/config/passport');
 var index = require('./app_server/routes/index');
 var api = require('./app_server/routes/api');
 var fb = require('./app_server/routes/facebookbot');
+const admin = require('./app_server/routes/admin')
 
 
 var app = express();
@@ -51,6 +52,7 @@ app.use(passport.session())
 app.use('/', index);
 app.use('/api', api);
 app.use('/fbbot', fb);
+app.use('/admin', admin);
 
 
 // catch 404 and forward to error handler
@@ -72,7 +74,7 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  console.log('Express error: ', err)
   // render the error page
   res.status(err.status || 500);
   res.render('error');

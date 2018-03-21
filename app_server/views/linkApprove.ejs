@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sharing request</title>
+</head>
+
+<body>
+    <%if(pendingLink) {%>
+        <h1>List links: </h1>
+        <ul>
+            <%pendingLink.forEach( link => {%>
+                <li>
+                    <a href="<%= link.address%>" target="_blank">
+                        <%= link.title%>
+                    </a>
+                    <a href="/admin/accept/<%= link.id%>/<%= link.botID%>">Accept</a>
+                    <a href="/admin/reject/<%= link.id%>/<%= link.botID%>" >reject</a>
+                </li>
+
+                <%})%>
+        </ul>
+
+        <%}%>
+</body>
+
+
+</html>

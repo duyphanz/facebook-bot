@@ -64,4 +64,10 @@ function isLoggedIn(req, res, next) {
     })
 
 }
-module.exports = { isLoggedIn}
+function isAdmin(req, res, next) {
+    if(req.user.userID === '1048839405258643'){
+        return next()
+    }
+    res.redirect('/error')
+}
+module.exports = { isLoggedIn, isAdmin}

@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var ctrlFBbot = require('../controllers/ctrlFBbot');
+var {fbAuthToken, fbbot} = require('../controllers/ctrlFBbot');
 
 
 //authen facebook
-router.get('/', ctrlFBbot.fbAuthToken);
-router.post('/', ctrlFBbot.fbbot)
+router.get('/', fbAuthToken);
+router.post('/', fbbot)
 
 module.exports = router;

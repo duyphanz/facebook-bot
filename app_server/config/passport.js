@@ -3,6 +3,7 @@
 const passport = require('passport');
 const passportFB = require('passport-facebook').Strategy
 const {User} = require('../models/users')
+const config = require('../config/config')
 
 passport.serializeUser((user, done) => {
     //console.log('Serialize: ', user)
@@ -23,8 +24,8 @@ passport.deserializeUser((id, done) => {
 const cbURL = process.env.PORT ? 'https://tuibittat.herokuapp.com/auth/fb/cb' : 'http://localhost:3000/auth/fb/cb';
 
 passport.use( new passportFB({
-    clientID: '394814394294763',
-    clientSecret: 'bdd916fac40827aaaae4cf18ebb30551',
+    clientID: config.clientID,
+    clientSecret: config.clientSecret,
     callbackURL: cbURL,
     profileFields: ['id', 'displayName', 'photos', 'email']
 }, (accessToken, refeshToken, profile, done) => {

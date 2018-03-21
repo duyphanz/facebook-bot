@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-require('./links')
+//require('./links')
 require('./users')
 var GracefullShutdown;
 //connect to mongoosedb
