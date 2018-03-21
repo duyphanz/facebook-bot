@@ -82,7 +82,7 @@ function fbbot(req, res) {
                                                 if (!user) {
                                                     return callSendAPI(senderId, 'Keycode sai rồi, kiểm tra keycode và kích hoạt lại nha.')
                                                 }
-                                                callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name + ' s:D');
+                                                callSendAPI(senderId, 'Kích hoạt @bot thành công rồi nha ' + user.name + ' :D');
                                             })
                                         //----------
 
