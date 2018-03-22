@@ -203,7 +203,7 @@ function addToDB(link, botID, linkState, cb) {
     console.log(link + '.')
     var webtitle = link;
     request(link, (err, res, body) => {
-        if (err || res.statusCode == 404) {
+        if (err || res.statusCode != 200) {
             
             console.log(`Loi get title: ${err} statuCode ${res.statusCode}}`)
         } else {
