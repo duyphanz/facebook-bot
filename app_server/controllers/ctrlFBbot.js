@@ -203,7 +203,8 @@ function addToDB(link, botID, linkState, cb) {
     var webtitle = link;
     request(link, (err, res, body) => {
         if (err || res.statusCode != 200) {
-            console.log(`Loi get title: ${err}`)
+            
+            console.log(`Loi get title: ${err} statuCode ${res.statusCode}}`)
         } else {
             const $ = cheerio.load(body);
             webtitle = $('title').text();

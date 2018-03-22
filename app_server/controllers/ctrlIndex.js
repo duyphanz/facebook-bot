@@ -2,12 +2,13 @@
 //var Link = mongoose.model('Link')
 const { User } = require('../models/users')
 
-module.exports.home = function (req, res) {
+function home (req, res) {
     //console.log(req.decoded);
-    getLinkData(res, req.user.botID, req.user.name);
+
+    getLinkData(res, req.user.botID);
 }
 
-module.exports.deleteOneLink = function (req, res) {
+function deleteOneLink(req, res) {
     const _id = req.params.id;
     const { botID } = req.user;
     User.findOne({
@@ -51,14 +52,65 @@ module.exports.deleteOneLink = function (req, res) {
     )
 }
 
-function getLinkData(res, botID, name) {
+function addDirectory(req, res) {
+    const {dirName} = req.body;
+    const {userID} = req.user;
+    console.log('User ID: ', userID + dirName);
+    
+    User.findOne({userID}, (err, user) => {
+        if(err) return console.log(err)
+        user.directory.push(dirName);
+        user.save((err) => {
+            if(err) return console.log(err)
+            res.redirect('/');
+        })
+    })
+}
+
+function getLinkData(res, botID) {
     User.findOne({ botID }, (err, user) => {
         if (err) {
             console.log('****Loi get link data');
             res.render('error');
         }
+        const name = user.name;
         const links = user.link;
+        const directories = user.directory;
         //console.log('Link truyen zo hom ne: ', links)
-        res.render("index", { links, name });
+        res.render("index", { links, name, directories, dir: 'root'});
     })
 }
+
+function loadLink(req, res){
+    const dir = req.params.dir;
+    //console.log(dir);
+    const {userID} = req.user;
+    User.findOne({userID}, (err, user) => {
+        if(err) return console.log(err)
+        if(!user) return console.log('None user')
+
+        const links = user.link.filter( link => link.directory === dir)
+        const name = user.name;
+        const directories = user.directory;
+        //console.log(links)
+        res.render('index', {links, name, directories, dir})
+    })
+}
+
+function moveDir(req, res){
+    const linkID = req.query.linkID;
+    const newDir = req.query.newDir;
+    const currDir = req.query.currDir;
+    const userID = req.user.userID;
+    User.findOne({userID}, (err, user) => {
+        if(err) return console.log(err)
+        const indexLink = user.link.findIndex( link => link.id === linkID);
+        user.link[indexLink].directory = newDir;
+        user.save((err) => {
+            if(err) return console.log(err)
+            res.send('/loadLink/' + currDir)
+        }) 
+    })
+}
+
+module.exports = {home, deleteOneLink, addDirectory, loadLink, moveDir}

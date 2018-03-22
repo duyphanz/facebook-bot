@@ -4,31 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="/js/jquery.js"></script>
     <title>Home</title>
 </head>
 
 <body>
     <div class="container">
         <%if(name){%>
-            <h2>Hi <%= name%>, <a href="/logout">Logout</a></h2>
-        <%}%>
-        <%if(links) {%>
-            <h1>List links: </h1>
-            <ul>
-                <%links.forEach( link => {%>
-                    <li>
-                        <a href="<%= link.address%>" target="_blank">
-                            <%= link.title%>
-                        </a>
-                        <a href="/delete/<%= link.id%>" style="color: red" onclick="return confirm('Are you sure?')">DEL</a>
-                    </li>
-
-                    <%})%>
-            </ul>
-
+            <h2>Hi
+                <%= name%>,
+                    <a href="/logout">Logout</a>
+            </h2>
             <%}%>
+
+                <%if(directories){
+            directories.forEach( directory => {%>
+                    <span>
+                        <a href="/loadLink/<%= directory%>">
+                            <%= directory%>
+                        </a>
+                    </span>
+                    <%})%>
+                        <button onclick="addDir()">Add A directory</button>
+                        </br>
+                        <div id="submitDir">
+                            <form action="/addDir" method="POST">
+                                <input type="text" name="dirName" placeholder="Nhập tên thư mục" autocomplete="off">
+                                <input type="submit" value="Submit">
+                            </form>
+                        </div>
+                        <%}%>
+                            <%if(links) {%>
+                                <h1>List links: </h1>
+                                <ul>
+                                    <%links.forEach( (link, index) => {%>
+                                        <li>
+                                            <a href="<%= link.address%>" target="_blank">
+                                                <%= link.title%>
+                                            </a>
+                                            <a href="/delete/<%= link.id%>" style="color: red" onclick="return confirm('Are you sure?')">DEL</a>
+                                            <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')">
+                                                <%directories.forEach( directory => {%>
+                                                    <%if(directory == dir){%>
+                                                        <option value="<%= directory%>" selected>
+                                                            <%= directory%>
+                                                        </option>
+                                                        
+                                                        <%}else{%>
+                                                            <option value="<%= directory%>">
+                                                                <%= directory%>
+                                                            </option>
+                                                            
+                                                            <%}%>
+                                                                <%})%>
+                                            </select>
+                                            <a id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>')"> Move </a>
+                                            
+                                        </li>
+
+                                        <%})%>
+                                </ul>
+
+                                <%}%>
+
     </div>
 
 </body>
+<script>
+    function showMoveButton(index) {
+        var moveDir = document.getElementById('moveDir' + index);
+        var select = document.getElementById('selDir'+ index);
+        var selValue = select.querySelector('[selected]').value;
+        var curr = document.getElementById("selDir" + index).value
+        console.log(curr + selValue)
+        if (selValue != curr) return moveDir.style.display = 'inline-block'
+        moveDir.style.display = 'none'
+    }
+    function moveDir(linkID, select){
+        var select = document.getElementById(select);
+        var currDir = select.querySelector('[selected]').value;
+        var newDir = select.value;
+        $.ajax({
+            url: '/moveDir',
+            data: {
+                linkID, newDir, currDir
+            },
+            type: 'GET',
+            success: function(data){
+                console.log(data)
+                document.location.href = data
+            }
+        })
+    }
+    function addDir() {
+        var x = document.getElementById('submitDir');
+        if (x.style.display === 'none') return x.style.display = 'block'
+        x.style.display = 'none'
+    }
+    // function loadLink(dir){
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/loadLink',
+    //         data: {dir},
+    //         success: function(data){
+    //             console.log(data);
+    //         },
+    //         error: function(err){
+    //             console.log(err)
+    //         }
+    //     })
+    // }
+    function init() {
+        var submitDir = document.getElementById('submitDir');
+        submitDir.style.display = 'none'
+
+    }
+    window.onload = init();
+</script>
 
 </html>
