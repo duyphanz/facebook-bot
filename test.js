@@ -29,3 +29,11 @@
 
 // console.log(test);
 
+const request = require('request')
+
+request('https://stackoverflow.com/questions/337488emplate-ajax', (er, res, body) =>{
+    if(er) console(er);
+    console.log(res.statusCode)
+  //console.log(body)
+
+})

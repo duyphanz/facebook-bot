@@ -200,9 +200,10 @@ function callSendAPI(sender_psid, response) {
 
 
 function addToDB(link, botID, linkState, cb) {
+    console.log(link + '.')
     var webtitle = link;
     request(link, (err, res, body) => {
-        if (err || res.statusCode != 200) {
+        if (err || res.statusCode == 404) {
             
             console.log(`Loi get title: ${err} statuCode ${res.statusCode}}`)
         } else {
