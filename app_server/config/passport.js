@@ -28,6 +28,7 @@ passport.use( new passportFB({
     clientID: config.clientID,
     clientSecret: config.clientSecret,
     callbackURL: cbURL,
+    enableProof: true,
     profileFields: ['id', 'displayName', 'photos', 'email']
 }, (accessToken, refeshToken, profile, done) => {
     //console.log(profile);
