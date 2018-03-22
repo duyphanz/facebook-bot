@@ -6,12 +6,13 @@ const {User} = require('../models/users')
 const config = require('../config/config')
 
 passport.serializeUser((user, done) => {
-    //console.log('Serialize: ', user)
+    console.log('Serialize: ')
     if(!user) return done(new Error('Can not serialize user.'))
     done(null, user.userID);
 })
 
 passport.deserializeUser((id, done) => {
+    console.log('Deserialize: ')
     User.findOne({
         userID: id
     }, (err, user) => {
@@ -38,7 +39,12 @@ passport.use( new passportFB({
         userID: id
     }, (err, user) => {
         if(err) return done(err);
-        if(user) return done(null, user);
+        if(user) 
+        {
+            console.log('Auth found user')
+            return done(null, user);
+        }
+        
         //create new user if didn't exist
 
         const newUser = new User({
