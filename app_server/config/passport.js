@@ -54,7 +54,9 @@ passport.use( new passportFB({
             email,
             botID: 'default',
             link: [],
-            directory: ['root',]
+            directory: ['root',],
+            token: accessToken,
+            image: profile.photos[0].value
         })
         newUser.setHash();
 

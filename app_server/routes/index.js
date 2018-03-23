@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var {home, deleteOneLink, addDirectory, loadLink, moveDir} = require('../controllers/ctrlIndex')
+var {home, deleteOneLink, addDirectory, loadLink, moveDir, delDir, renameDir} = require('../controllers/ctrlIndex')
 var {isLoggedIn} = require('../controllers/ctrlAuth');
 const { decodeJWT } = require('../controllers/decodeJWT')
 const passport = require('passport');
@@ -23,9 +23,11 @@ router.get('/logout', (req, res) => {
     res.redirect('/login')
 })
 router.get('/delete/:id', isLoggedIn, deleteOneLink)
-router.post('/addDir', isLoggedIn, addDirectory)
+router.get('/addDir', isLoggedIn, addDirectory)
 router.get('/loadLink/:dir', isLoggedIn, loadLink)
 router.get('/moveDir', isLoggedIn, moveDir)
+router.get('/delDir', isLoggedIn, delDir);
+router.get('/renameDir', isLoggedIn, renameDir)
 router.get('/auth/fb', passport.authenticate('facebook', { scope: ['email'] }))
 router.get('/auth/fb/cb', (req, res) => {
 

@@ -18,9 +18,14 @@ const botResponse = {
     `,
     details: 
     `
-      *1. Add link:* /a link 
-      + Options: -s để yêu cầu duyệt share lên trang chủ @tuibittat. VD: /a link -s
-    *2. Truy cập trang quản lý link:* https://tuibittat.herokuapp.com/
+      *1. Add link*
+      -->Gõ: /a link 
+      + Tùy chọn: 
+      -s 'ghi chú' (có thể k điền ghi chú): yêu cầu duyệt share lên trang chủ @tuibittat. VD: /a link -s 'hello'
+      -d 'tên thư mục' (nhớ phải luôn quánh tên thư mục vào nhé): Lưu link vào thư mục được chỉ định
+      *2. Xem danh sách thư mục*
+      -->Gõ: /dir
+    *3. Truy cập trang quản lý link:* https://tuibittat.herokuapp.com/
     `
 }
 

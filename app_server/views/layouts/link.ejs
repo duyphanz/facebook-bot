@@ -1,0 +1,43 @@
+<div id="reloadLink">
+        <button id="delDir" onclick="delDir('<%= dir%>')">Del directory</button>
+        <button id="renameDir" onclick="renameDir()">Rename directory</button>
+        <div id="submitRenameDir" style="display: none;">
+           
+                <input type="text" id="inputRenameDir" placeholder="Nhập tên mới của thư mục" autocomplete="off">
+                <button id="btnRenameDir" onclick="submitRenameDir('<%= dir%>')">Submit</button>
+            
+        </div>
+    <h1>List links of <%= dir%>: </h1>
+        <%if(links.length === 0){%> empty
+    <%}else{%>
+        
+        <ul>
+            <%links.forEach( (link, index) => {%>
+                <li>
+                    <a href="<%= link.address%>" target="_blank">
+                        <%= link.title%>
+                    </a>
+                    <a href="/delete/<%= link.id%>" style="color: red" onclick="return confirm('Are you sure?')">DEL</a>
+                    <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')">
+                        <%directories.forEach( directory => {%>
+                            <%if(directory == dir){%>
+                                <option value="<%= directory%>" selected>
+                                    <%= directory%>
+                                </option>
+
+                                <%}else{%>
+                                    <option value="<%= directory%>">
+                                        <%= directory%>
+                                    </option>
+
+                                    <%}%>
+                                        <%})%>
+                    </select>
+                    <button id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>')"> Move </button>
+
+                </li>
+
+                <%})%>
+        </ul>
+
+        <%}%>

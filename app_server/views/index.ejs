@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="/js/jquery.js"></script>
+
     <title>Home</title>
 </head>
 
@@ -16,71 +17,94 @@
                     <a href="/logout">Logout</a>
             </h2>
             <%}%>
-
-                <%if(directories){
-            directories.forEach( directory => {%>
-                    <span>
-                        <a href="/loadLink/<%= directory%>">
+                <div id="listDir">
+                    <%if(directories){%>
+            <%directories.forEach( (directory, index) => {%>
+                        <span>
+                            <!-- <a href="/loadLink/<%= directory%>">
                             <%= directory%>
-                        </a>
-                    </span>
-                    <%})%>
-                        <button onclick="addDir()">Add A directory</button>
-                        </br>
-                        <div id="submitDir">
-                            <form action="/addDir" method="POST">
+                        </a> -->
+                            <button id="<%= directory%><%= index%>" onclick="reloadLink('<%= directory%>')">
+                                <%= directory%>
+                            </button>
+                        </span>
+                        <%})%>
+                        <%if(message)%> <%= message%>
+                        <%}%>
+                </div>
+                <button onclick="addDir()">Add A directory</button>
+                </br>
+                <div id="submitDir" style="display: none;">
+                    <!-- <form action="/addDir" method="POST">
                                 <input type="text" name="dirName" placeholder="Nhập tên thư mục" autocomplete="off">
                                 <input type="submit" value="Submit">
-                            </form>
-                        </div>
-                        <%}%>
-                            <%if(links) {%>
-                                <h1>List links: </h1>
-                                <ul>
-                                    <%links.forEach( (link, index) => {%>
-                                        <li>
-                                            <a href="<%= link.address%>" target="_blank">
-                                                <%= link.title%>
-                                            </a>
-                                            <a href="/delete/<%= link.id%>" style="color: red" onclick="return confirm('Are you sure?')">DEL</a>
-                                            <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')">
-                                                <%directories.forEach( directory => {%>
-                                                    <%if(directory == dir){%>
-                                                        <option value="<%= directory%>" selected>
-                                                            <%= directory%>
-                                                        </option>
-                                                        
-                                                        <%}else{%>
-                                                            <option value="<%= directory%>">
-                                                                <%= directory%>
-                                                            </option>
-                                                            
-                                                            <%}%>
-                                                                <%})%>
-                                            </select>
-                                            <a id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>')"> Move </a>
-                                            
-                                        </li>
+                            </form> -->
+                    <input type="text" id="createDir" placeholder="Nhập tên thư mục" autocomplete="off">
+                    <button id="btnCreateDir" onclick="createDir()">Submit</button>
+                </div>
+                
 
-                                        <%})%>
-                                </ul>
 
-                                <%}%>
+    </div>
+    
+    <div id="reloadLink">
+            <button id="delDir" onclick="delDir('<%= dir%>')">Del directory</button>
+            <button id="renameDir" onclick="renameDir()">Rename directory</button>
+            <div id="submitRenameDir" style="display: none;">
+               
+                    <input type="text" id="inputRenameDir" placeholder="Nhập tên mới của thư mục" autocomplete="off">
+                    <button id="btnRenameDir" onclick="submitRenameDir('<%= dir%>')">Submit</button>
+                
+            </div>
+        <h1>List links of <%= dir%>: </h1>
+        <%if(links.length === 0){%> empty
+        <%}else {%>
 
+            
+            <ul>
+                <%links.forEach( (link, index) => {%>
+                    <li>
+                        <a href="<%= link.address%>" target="_blank">
+                            <%= link.title%>
+                        </a>
+                        <a href="/delete/<%= link.id%>" style="color: red" onclick="return confirm('Are you sure?')">DEL</a>
+                        <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')">
+                            <%directories.forEach( directory => {%>
+                                <%if(directory == dir){%>
+                                    <option value="<%= directory%>" selected>
+                                        <%= directory%>
+                                    </option>
+
+                                    <%}else{%>
+                                        <option value="<%= directory%>">
+                                            <%= directory%>
+                                        </option>
+
+                                        <%}%>
+                                            <%})%>
+                        </select>
+                        <button id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>')"> Move </button>
+
+                    </li>
+
+                    <%})%>
+            </ul>
+
+            <%}%>
     </div>
 
 </body>
 <script>
     function showMoveButton(index) {
         var moveDir = document.getElementById('moveDir' + index);
-        var select = document.getElementById('selDir'+ index);
+        var select = document.getElementById('selDir' + index);
         var selValue = select.querySelector('[selected]').value;
         var curr = document.getElementById("selDir" + index).value
         console.log(curr + selValue)
         if (selValue != curr) return moveDir.style.display = 'inline-block'
         moveDir.style.display = 'none'
     }
-    function moveDir(linkID, select){
+    function moveDir(linkID, select) {
         var select = document.getElementById(select);
         var currDir = select.querySelector('[selected]').value;
         var newDir = select.value;
@@ -90,9 +114,24 @@
                 linkID, newDir, currDir
             },
             type: 'GET',
-            success: function(data){
+            success: function (data) {
                 console.log(data)
-                document.location.href = data
+                reloadLink(data)
+            }
+        })
+    }
+
+    function reloadLink(dir) {
+        var reloadlink = document.getElementById('reloadLink');
+
+        //console.log(btn)
+        $.ajax({
+            url: '/loadLink/' + dir,
+            type: 'GET',
+            success: function (data) {
+                //console.log(dirName);
+
+                reloadlink.innerHTML = data;
             }
         })
     }
@@ -114,9 +153,65 @@
     //         }
     //     })
     // }
+    function renameDir() {
+        var x = document.getElementById('submitRenameDir');
+        if (x.style.display === 'none') return x.style.display = 'block'
+        x.style.display = 'none'
+
+    }
+    function submitRenameDir(dir){
+        const renameDir = document.getElementById('inputRenameDir');
+        const inputRenameDir = renameDir.value;
+        console.log(inputRenameDir)
+        if(!inputRenameDir) return alert('Nhập tên thư mục mới vào nhé.')
+        $.ajax({
+            type: 'GET',
+            url: '/renameDir',
+            data: {dir, inputRenameDir},
+            success: function(data){
+                console.log(data)
+                var lisDir = document.getElementById('listDir').innerHTML = data;
+                // hide submit new dir div
+                renameDir.value = '';
+                var x = document.getElementById('submitRenameDir');
+                x.style.display = 'none'
+                reloadLink(inputRenameDir)
+            }
+        })
+    }
+    function createDir() {
+        const createDir = document.getElementById('createDir');
+        const inputCreateDir = createDir.value;
+        if(!inputCreateDir) return alert('Nhập tên thư mục vào nhé.')
+        $.ajax({
+            type: 'GET',
+            url: '/addDir',
+            data: {inputCreateDir},
+            success: function(data){
+                console.log(data)
+                var lisDir = document.getElementById('listDir').innerHTML = data;
+                // hide submit new dir div
+                createDir.value = '';
+                var x = document.getElementById('submitDir');
+                x.style.display = 'none'
+            }
+        })
+    }
+
+    function delDir(dir){
+        $.ajax({
+            type: 'GET',
+            url: '/delDir',
+            data: {dir},
+            success: function(data){
+                console.log(data)
+                var lisDir = document.getElementById('listDir').innerHTML = data;
+                // redirect to root after delete
+                reloadLink('root')
+            }
+        })
+    }
     function init() {
-        var submitDir = document.getElementById('submitDir');
-        submitDir.style.display = 'none'
 
     }
     window.onload = init();

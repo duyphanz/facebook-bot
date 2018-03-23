@@ -111,24 +111,56 @@ function fbbot(req, res) {
                                             const parameterShare = regexShare.exec(text);
                                             if (parameterShare) {
                                                 //set state tu private -> pending
-                                                linkState = 'pending';
+                                                const regexNote = /-s\s\'(.*)\'/g
+                                                const matchNote = regexNote.exec(text)
+                                                if (!matchNote) {
+                                                    linkState = 'pending';
+                                                } else {
+                                                    linkState = 'pending|' + matchNote[1]
+                                                }
                                             }
+                                            //check -d
+                                            const regexDir = /\s-d/g;
+                                            const matchDir = regexDir.exec(text);
+                                            var _dir = 'root'
+                                            if(matchDir){
+                                                const regexDirName = /-d\s\'(.*)\'/g
+                                                const matchDirName= regexDirName.exec(text)
+                                                
+                                                
+                                                if(matchDirName) {
+                                                    const submitDir = matchDirName[1]
+                                                    console.log('submitdir ', submitDir)
+                                                    const isExist = user.directory.includes(submitDir)
+                                                    if(!isExist) return callSendAPI(senderId, 'Tớ có thấy thư mục *' + submitDir + '* đâu ta? :/');
+                                                    _dir = submitDir
+                                                }else{
+                                                    return callSendAPI(senderId, 'Quên điền tên thư mục rồi kìa ấy ơi! Gõ /dir để xem danh sách thư mục nhé.');
+                                                }
+                                                
+                                            }
+                                            console.log('_dir ', _dir)
                                             //---
                                             const regexParameter = /^\/a\s([^\s]+)/g
                                             const parameter = regexParameter.exec(text);
                                             if (!parameter) return callSendAPI(senderId, 'Sai cú pháp add link bot rồi nhé :)');
                                             const getLink = parameter[1];
                                             if (!getLink) return callSendAPI(senderId, 'Sai cú pháp add link bot rồi kìa -_-');
-                                            addToDB(getLink, senderId, linkState, (err, state) => {
+                                            addToDB(getLink, senderId, linkState, _dir, (err, state) => {
                                                 if (!err) {
-                                                    if(state === 'private')
-                                                    return callSendAPI(senderId, 'Đã thêm link thành công rồi nhé chủ nhơn :)');
+                                                    if (state === 'private')
+                                                        return callSendAPI(senderId, 'Đã thêm link thành công rồi nhé chủ nhơn :)');
                                                 }
                                                 callSendAPI(senderId, 'Đã thêm link thành công và chờ duyệt chia sẻ lên trang chủ @tuibittat rồi nhé chủ nhơn :)');
                                             });
                                             //
-                                            
+
                                             break;
+                                        case '/dir':
+                                            const dir = user.directory.join(', ');
+                                            callSendAPI(senderId, 'Danh sách thư mục của ngài đây: *' + dir + '*')
+                                            break;
+                                      
                                         default:
                                             callSendAPI(senderId, 'Cú pháp không được hỗ trợ. Gõ /help để được hướng dẫn nhé.')
                                             break;
@@ -156,8 +188,11 @@ function fbbot(req, res) {
     })
 }
 
-function postingFB(link, user) {
-    const desc = 'Shared by ' + user.name;
+function postingFB(link, user, note) {
+    const desc =
+        `${note}
+     
+    [Shared by + ${user.name}]`;
     request({
         "uri": "https://graph.facebook.com/194442694037009/feed?message=" + desc + "&link=" + link + "&access_token=" + config.pageToken,
         "method": "POST",
@@ -199,12 +234,12 @@ function callSendAPI(sender_psid, response) {
 
 
 
-function addToDB(link, botID, linkState, cb) {
-    console.log(link + '.')
+function addToDB(link, botID, linkState, dir, cb) {
+    //console.log(link + '.')
     var webtitle = link;
     request(link, (err, res, body) => {
         if (err || res.statusCode != 200) {
-            
+
             console.log(`Loi get title: ${err} statuCode ${res.statusCode}}`)
         } else {
             const $ = cheerio.load(body);
@@ -224,7 +259,7 @@ function addToDB(link, botID, linkState, cb) {
         const newLink = new Link({
             botID,
             state: linkState,
-            directory: 'root',
+            directory: dir,
             address: link,
             title: webtitle
         })

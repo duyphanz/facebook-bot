@@ -41,7 +41,7 @@ app.use(session({
   }),
   resave: false,
   saveUninitialized: false,
-  cookie: {maxAge: 1000*60*15}
+  cookie: {maxAge: 1000*60*30}
 }))
 app.use(express.static(path.join(__dirname, 'public')));
 //Passport should be initialized after static route and before routes that are going to use authentication

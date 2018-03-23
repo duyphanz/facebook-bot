@@ -44,6 +44,8 @@ var userSchema = new mongoose.Schema({
     },
     link: [linkSchema],
     directory: [String],
+    image: String,
+    token: String
 });
 
 userSchema.methods.setHash = function() {
