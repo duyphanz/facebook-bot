@@ -8,7 +8,8 @@
         if (selValue != curr) return moveDir.style.display = 'inline-block'
         moveDir.style.display = 'none'
     }
-    function moveDir(linkID, select) {
+    function moveDir(linkID, select, btn) {
+        var _btn = document.getElementById(btn)
         var select = document.getElementById(select);
         var currDir = select.querySelector('[selected]').value;
         var newDir = select.value;
@@ -18,6 +19,9 @@
                 linkID, newDir, currDir
             },
             type: 'GET',
+            beforeSend: function(){
+                _btn.className = 'ui loading small positive basic button'
+            },
             success: function (data) {
                 console.log(data)
                 reloadLink(data, '')
