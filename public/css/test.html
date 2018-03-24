@@ -15,15 +15,25 @@
 
 <body>
     <div class="ui container">
-            <select class="ui dropdown" id="gender-select"
-                    <option value="">Gender</option>
-                    <option value="1">Male</option>
-                    <option value="0">Female</option>
-                  </select>
+        <br><br><br><br><br>
+            <div class="ui icon button" data-content="Add users to your feed">
+                    <i class="add icon"></i>
+                  </div>
+                  <div class="ui button">Activator</div>
+<div class="ui special popup">
+  <div class="header">Custom Header</div>
+  <div class="ui button">Click Me</div>
+</div>
     </div>
 
     <script>
-        $('.ui.dropdown').dropdown()
+       $('.activating.element').popup();
+       $('.button')
+  .popup({
+    inline: true
+  })
+;
+
     </script>
 
 </body>

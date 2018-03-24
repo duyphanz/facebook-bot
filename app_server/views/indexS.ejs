@@ -54,7 +54,7 @@
         </div>
         <!-- button add diirectory -->
         <hr>
-        <button class="circular ui icon positive basic button" onclick="addDir()" ><i class="grean plus circle icon"></i></button>
+        <button class="circular ui icon positive basic button activating element" onclick="addDir()" data-content="Thêm mới thư mục" ><i class="grean plus circle icon"></i></button>
         <br></br>
 
         <div id="submitDir" style="display: none;">
@@ -71,7 +71,7 @@
         <!-- list link -->
         <div id="reloadLink">
             <!-- btn del rename -->
-            <button class="circular ui icon positive basic button" id="delDir" onclick="delDir('<%= dir%>')"><i class="trash alternate outline icon"></i></button>
+            <button class="circular ui icon positive basic button activating element" id="delDir" onclick="delDir('<%= dir%>')" data-content="Xóa thư mục hiện tại"><i class="trash alternate outline icon"></i></button>
             <button class="circular ui icon positive basic button" id="renameDir" onclick="renameDir()">Đổi tên thư mục hiện tại</button>
             <br>
             <br>
@@ -146,6 +146,7 @@
     </div>
     <script>
             $('.ui.dropdown').dropdown()
+            $('.activating.element').popup();
         </script>
 </body>
 
