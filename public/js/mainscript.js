@@ -40,7 +40,7 @@
 
                 reloadlink.innerHTML = data;
                 if(btn) _btn.className = 'ui primary basic button'
-                
+                $('.ui.dropdown').dropdown()
             }
         })
     }
@@ -148,8 +148,7 @@
         
     }
     function init() {
-        $('.ui.dropdown')
-        .dropdown();
+        
         
     }
     window.onload = init();
