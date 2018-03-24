@@ -155,6 +155,9 @@ function renameDir(req, res) {
     User.findOne({ userID }, (err, user) => {
         if (err) return console.log(err)
         var directories = user.directory;
+        if(dir === 'root'){
+            return res.render('./layouts/listDir', {directories, message: 'Không được đổi tên thư mục root'})
+        }
         const isExist = directories.includes(inputRenameDir)
         if(isExist)
         {
