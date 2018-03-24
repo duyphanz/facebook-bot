@@ -42,6 +42,7 @@
         </div>
         <!-- list directory -->
         <hr>
+        <h4>Thư mục: </h4>
         <div id="listDir">
             <%if(directories){%>
                 <%directories.forEach( (directory, index) => {%>
@@ -100,7 +101,7 @@
             </div>
             <hr>
             <h3>Danh sách link trong thư mục [
-                <%= dir%>]: </h3>
+                <%= dir%> ]: </h3>
             <!-- check empty -->
             <%if(links.length === 0){%> (empty)
                 <!-- end check empty -->
