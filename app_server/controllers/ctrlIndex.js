@@ -158,6 +158,9 @@ function renameDir(req, res) {
         {
             return res.render('./layouts/listDir', {directories, message: 'Đổi trùng tên thư mục tồn tại'})
         }
+        user.link.forEach( e => {
+            if(e.directory === dir) e.directory = inputRenameDir
+        })
         const index = directories.indexOf(dir);
         user.directory.splice(index, 1)
         user.directory.push(inputRenameDir)
