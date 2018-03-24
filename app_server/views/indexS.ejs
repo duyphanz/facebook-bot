@@ -21,12 +21,22 @@
             <a class="item">
                 Hi
                 <%= name%>
-                   
+
             </a>
-            <div class="ui right item">
-                <a href="/logout">
-                    <button class="ui negative basic button">Logout</button>
-                </a>
+            <div class="ui right dropdown item">
+                <button class="ui basic button"><i class="align justify icon"></i></button>
+                <div class="menu">
+                    <div class="item">
+                        <a href="/logout">
+                            <button class="ui negative basic button">Logout</button>
+                        </a>
+                    </div>
+                    <div class="item"><a href="/keycode">Get keycode</a></div>
+                    <%if(isAdmin){%>
+                    <div class="item"><a href="/admin/linkApprove">Admin</a></div>
+                    <%}%>
+                </div>
+
             </div>
             <!-- end name -->
         </div>
@@ -54,7 +64,9 @@
         </div>
         <!-- button add diirectory -->
         <hr>
-        <button class="circular ui icon positive basic button activating element" onclick="addDir()" data-content="Thêm mới thư mục" ><i class="grean plus circle icon"></i></button>
+        <button class="circular ui icon positive basic button activating element" onclick="addDir()" data-content="Thêm mới thư mục">
+            <i class="grean plus circle icon"></i>
+        </button>
         <br></br>
 
         <div id="submitDir" style="display: none;">
@@ -71,7 +83,9 @@
         <!-- list link -->
         <div id="reloadLink">
             <!-- btn del rename -->
-            <button class="circular ui icon positive basic button activating element" id="delDir" onclick="delDir('<%= dir%>')" data-content="Xóa thư mục hiện tại"><i class="trash alternate outline icon"></i></button>
+            <button class="circular ui icon positive basic button activating element" id="delDir" onclick="delDir('<%= dir%>')" data-content="Xóa thư mục hiện tại">
+                <i class="trash alternate outline icon"></i>
+            </button>
             <button class="circular ui icon positive basic button" id="renameDir" onclick="renameDir()">Đổi tên thư mục hiện tại</button>
             <br>
             <br>
@@ -94,7 +108,9 @@
                     <table class="ui very basic collapsing celled table">
                         <thead>
                             <tr>
-                                <th><i class="linkify icon"></i></th>
+                                <th>
+                                    <i class="linkify icon"></i>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,26 +123,28 @@
                                                 <a href="<%= link.address%>" target="_blank">
                                                     <%= link.title%>
                                                 </a>
-                                                <br><br>
+                                                <br>
+                                                <br>
                                                 <button class="ui small negative basic button" onclick="delLink('<%= link.id%>','<%= dir%>')">Xóa</button>
                                                 <!-- selector -->
-                    <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')" class="ui dropdown">
-                        <%directories.forEach( directory => {%>
-                            <%if(directory == dir){%>
-                                <option value="<%= directory%>" selected>
-                                    <%= directory%>
-                                </option>
+                                                <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')" class="ui dropdown">
+                                                    <%directories.forEach( directory => {%>
+                                                        <%if(directory == dir){%>
+                                                            <option value="<%= directory%>" selected>
+                                                                <%= directory%>
+                                                            </option>
 
-                                <%}else{%>
-                                    <option value="<%= directory%>">
-                                        <%= directory%>
-                                    </option>
+                                                            <%}else{%>
+                                                                <option value="<%= directory%>">
+                                                                    <%= directory%>
+                                                                </option>
 
-                                    <%}%>
-                                        <%})%>
-                    </select>
-                    <button id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>', 'moveDir<%= index%>')" class="ui small positive basic button"> Move </button>
-                    <!-- end selector -->
+                                                                <%}%>
+                                                                    <%})%>
+                                                </select>
+                                                <button id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>', 'moveDir<%= index%>')"
+                                                    class="ui small positive basic button"> Move </button>
+                                                <!-- end selector -->
                                             </div>
                                         </h4>
                                     </td>
@@ -136,18 +154,38 @@
 
                         </tbody>
                     </table>
-                    
+
 
                     <%}%>
-                   
+
                         <!-- end list link -->
+
+                        
         </div>
+        <!-- Modal confirm del -->
+        <div class="ui basic modal">
+            
+                <div class="content">
+                    <p>Chắc là xóa chứ bro?</p>
+                </div>
+                <div class="actions">
+                    <div class="ui red basic cancel inverted button">
+                        <i class="remove icon"></i>
+                        Ơ, khoan
+                    </div>
+                    <div class="ui green ok inverted button">
+                        <i class="checkmark icon"></i>
+                        Ngay và luôn
+                    </div>
+                </div>
+            </div>
         <!-- end container -->
+        
     </div>
     <script>
-            $('.ui.dropdown').dropdown()
-            $('.activating.element').popup();
-        </script>
+        $('.ui.dropdown').dropdown()
+        $('.activating.element').popup();
+    </script>
 </body>
 
 </html>

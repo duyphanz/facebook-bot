@@ -14,29 +14,54 @@
 </head>
 
 <body>
+
     <div class="ui container">
-        <br><br><br><br><br>
-            <div class="ui icon button" data-content="Add users to your feed">
-                    <i class="add icon"></i>
-                  </div>
-                  <div class="ui button">Activator</div>
-<div class="ui special popup">
-  <div class="header">Custom Header</div>
-  <div class="ui button">Click Me</div>
-</div>
+        <button onclick="aclick()">CLICK</button>
+        <div class="ui basic modal">
+            
+            <div class="content">
+                <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    No
+                </div>
+                <div class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-       $('.activating.element').popup();
-       $('.button')
-  .popup({
-    inline: true
-  })
-;
 
-    </script>
 
 </body>
+
+<script>
+
+    function aclick() {
+        console.log('a')
+        $('.ui.basic.modal')
+            .modal({
+                closable: false,
+                onDeny: function () {
+                    window.alert('Wait not yet!');
+                    //return false;
+                },
+                onApprove: function () {
+                    window.alert('Approved!');
+                }
+            })
+            .modal('show')
+            ;
+
+    }
+
+
+</script>
 
 
 </html>

@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,45 +12,74 @@
     <br>
     <div class="ui grid container">
         <div class="column">
-            
-                    <%if(message === 'succeslogin'){%>
+
+            <%if(message === 'succeslogin'){%>
+                <div class="ui message">
+                    <div class="header">
+                        Đăng nhập thành công
+                    </div>
+                    <p>Đăng ký thành công! Bây giờ bạn đã có thể sử dụng cách chức năng của @tuibittat. Gõ /help để biết thêm
+                        thông tin.
+                    </p>
+                    <a href="/">Chuyển sang trang chủ</a>
+
+                </div>
+                <%}%>
+                    <%if(message === 'nonelogin'){%>
                         <div class="ui message">
                             <div class="header">
-                                Đăng nhập thành công
+                                Yêu cầu đăng nhập
                             </div>
-                            <p>Đăng ký thành công! Bây giờ bạn đã có thể sử dụng cách chức năng của @tuibittat. Gõ /help để biết thêm thông
-                                tin.
-                            </p>
-                            <a href="/">Chuyển sang trang chủ</a>
-            
+
+                            <p>Hãy đăng nhập trước khi truy cập trang nhé.</p>
+
+                            <a href="/login">
+                                <button class="ui primary basic button">Chuyển sang login</button>
+                            </a>
+
                         </div>
                         <%}%>
-                            <%if(message === 'nonelogin'){%>
+
+                            <%if(message === 'keycode'){%>
                                 <div class="ui message">
                                     <div class="header">
-                                        Yêu cầu đăng nhập
+                                        Kích hoạt @bot
                                     </div>
-            
-                                    <p>Hãy đăng nhập trước khi truy cập trang nhé.</p>
+                                    <p>Keycode để kích hoạt @bot:
+                                        <%= keycode%>
+                                    </p>
+                                    <p>Gõ
+                                        <b>/active keycode </b> để kích hoạt @bot nhé. (Click copy và paste vào khung chat)</p>
                                     
-                                    <a href="/login"><button class="ui primary basic button">Chuyển sang login</button></a>
-            
                                 </div>
+                                <div class="ui action input">
+                                        <input type="text" value="/active <%= keycode%>" id="myInput">
+                                        <button class="ui teal right labeled icon button" onclick="myFunction()">
+                                            <i class="copy icon"></i>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    <br><br>
+                                <a href="/">Truy cập trang cá nhân</a>
                                 <%}%>
-            
-                                    <%if(message === 'keycode'){%>
-                                        <div class="ui message">
-                                            <div class="header">
-                                                Đăng ký thành công
-                                            </div>
-                                            <p>Keycode để kích hoạt @bot: <%= keycode%> </p>
-                                            <p>Gõ <b>/active <%= keycode%> </b> để kích hoạt @bot nhé. </p>
-                                        </div>
-            
-                                        <%}%>
-            
+                                
         </div>
+        
     </div>
 </body>
+<script>
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("myInput");
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        document.execCommand("Copy");
+       
+    }
+
+</script>
 
 </html>

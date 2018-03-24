@@ -84,9 +84,11 @@ function getLinkData(res, botID) {
         const links = user.link.filter(link => link.directory === 'root')
         const directories = user.directory;
         const image = user.image;
+        var isAdmin = '';
+        if(user.userID === '1048839405258643') isAdmin = 'admin'
         //if(links.length === 0) empty = 'empty'
         //console.log('Link truyen zo hom ne: ', links)
-        res.render("indexS", { links, name, image, directories, dir: 'root', message: '' });
+        res.render("indexS", { links, name, image, directories, dir: 'root', message: '', isAdmin });
     })
 }
 
@@ -194,5 +196,13 @@ function moveDir(req, res) {
         })
     })
 }
+function getKeyCode(req, res){
+    const userID = req.user.userID;
+    User.findOne({ userID }, (err, user) => {
+        if (err) return console.log(err)
+        const keycode = user.salt;
+        res.render('info', {message: 'keycode', keycode})
+    })
+}
 
-module.exports = { home, deleteOneLink, addDirectory, loadLink, moveDir, delDir, renameDir }
+module.exports = { home, deleteOneLink, addDirectory, loadLink, moveDir, delDir, renameDir, getKeyCode }

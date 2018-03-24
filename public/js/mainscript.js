@@ -119,37 +119,63 @@
     }
 
     function delDir(dir){
-        var result = confirm("Các links trong thư mục sẽ mất khi xóa thư mục. Vẫn xóa thư mục này đúng không?");
-        if (result) {
-            $.ajax({
-                type: 'GET',
-                url: '/delDir',
-                data: {dir},
-                success: function(data){
-                    console.log(data)
-                    var lisDir = document.getElementById('listDir').innerHTML = data;
-                    // redirect to root after delete
-                    reloadLink('root', '')
+        $('.ui.basic.modal')
+            .modal({
+                closable: false,
+                onDeny: function () {
+                    //window.alert('Wait not yet!');
+                    //return false;
+                },
+                onApprove: function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/delDir',
+                        data: {dir},
+                        success: function(data){
+                            console.log(data)
+                            var lisDir = document.getElementById('listDir').innerHTML = data;
+                            // redirect to root after delete
+                            reloadLink('root', '')
+                        }
+                    })
                 }
             })
-        }
+            .modal('show');
+            
+        //var result = confirm("Các links trong thư mục sẽ mất khi xóa thư mục. Vẫn xóa thư mục này đúng không?");
+        
+            
+        
         
     }
     function delLink(linkID, dir){
-        var result = confirm("Xóa link này chứ?");
-        if (result) {
-            $.ajax({
-                type: 'GET',
-                url: '/delete',
-                data: {linkID},
-                success: function(data){
-                    console.log(data)
-                    //var lisDir = document.getElementById('listDir').innerHTML = data;
-                    // redirect to root after delete
-                    reloadLink(dir, '')
+        $('.ui.basic.modal')
+            .modal({
+                closable: false,
+                onDeny: function () {
+                    //window.alert('Wait not yet!');
+                    //return false;
+                },
+                onApprove: function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/delete',
+                        data: {linkID},
+                        success: function(data){
+                            console.log(data)
+                            //var lisDir = document.getElementById('listDir').innerHTML = data;
+                            // redirect to root after delete
+                            reloadLink(dir, '')
+                        }
+                    })
                 }
             })
-        }
+            .modal('show');
+            
+        //var result = confirm("Xóa link này chứ?");
+        
+           
+        
         
     }
     function init() {
