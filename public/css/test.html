@@ -8,24 +8,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/components/dropdown.min.js"></script>
+    <script src="../js/mainscript.js"></script>
     <title>Document</title>
 </head>
 
 <body>
     <div class="ui container">
-        <div class="ui message">
-            <div class="header">
-                Đăng nhập thành công
-            </div>
-
-            <p>Đăng ký thành công! Bây giờ bạn đã có thể sử dụng cách chức năng của @tuibittat. Gõ /help để biết thêm thông
-                tin.
-            </p>
-
-            <a href="/">Chuyển sang trang chủ</a>
-        </div>
+            <select class="ui dropdown" id="gender-select"
+                    <option value="">Gender</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                  </select>
     </div>
 
+    <script>
+        $('#gender-select').dropdown()
+    </script>
+
 </body>
+
 
 </html>

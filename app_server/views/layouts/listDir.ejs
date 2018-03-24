@@ -1,13 +1,18 @@
 <%if(directories){%>
     <%directories.forEach( (directory, index) => {%>
         <span>
-            <!-- <a href="/loadLink/<%= directory%>">
-                    <%= directory%>
-                </a> -->
-            <button id="<%= directory%><%= index%>" onclick="reloadLink('<%= directory%>')">
+            <button class="ui primary basic button" id="<%= directory%><%= index%>" onclick="reloadLink('<%= directory%>')">
                 <%= directory%>
             </button>
+
         </span>
-        <%})%>
-        <%if(message)%> <%= message%>
-            <%}%>
+        <%})}%>
+            <%if(message){%>
+                <div class="ui warning message transition">
+                   
+                    <div class="header">
+                        <%= message%>
+                    </div>
+
+                </div>
+                <%}%>

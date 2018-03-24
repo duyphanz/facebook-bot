@@ -22,7 +22,7 @@ router.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/login')
 })
-router.get('/delete/:id', isLoggedIn, deleteOneLink)
+router.get('/delete', isLoggedIn, deleteOneLink)
 router.get('/addDir', isLoggedIn, addDirectory)
 router.get('/loadLink/:dir', isLoggedIn, loadLink)
 router.get('/moveDir', isLoggedIn, moveDir)

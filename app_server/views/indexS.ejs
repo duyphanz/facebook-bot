@@ -1,0 +1,149 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ./partials/import %>
+        <script src="/js/mainscript.js"></script>
+        <title>
+            <%= name%> - @tuibittat</title>
+</head>
+
+<body>
+    <br>
+    <div class="ui container">
+        <!-- name -->
+        <div class="ui text menu">
+            <div class="item">
+                <img src="<%= image%>">
+            </div>
+            <a class="item">
+                Hi
+                <%= name%>, Have a nice day nhé!
+                   
+            </a>
+            <div class="ui right item">
+                <a href="/logout">
+                    <button class="ui negative basic button">Logout</button>
+                </a>
+            </div>
+            <!-- end name -->
+        </div>
+        <!-- list directory -->
+        <hr>
+        <div id="listDir">
+            <%if(directories){%>
+                <%directories.forEach( (directory, index) => {%>
+                    <span>
+                        <button class="ui primary basic button" id="<%= directory%><%= index%>" onclick="reloadLink('<%= directory%>', '<%= directory%><%= index%>')">
+                            <%= directory%>
+                        </button>
+
+                    </span>
+                    <%})}%>
+                        <%if(message){%>
+                            <div class="ui warning message transition">
+                                <div class="header">
+                                    <%= message%>
+                                </div>
+
+                            </div>
+                            <%}%>
+                                <!-- end list dir -->
+        </div>
+        <!-- button add diirectory -->
+        <hr>
+        <button class="circular ui icon positive basic button" onclick="addDir()" ><i class="grean plus circle icon"></i></button>
+        <br></br>
+
+        <div id="submitDir" style="display: none;">
+            <div class="ui action input">
+                <input type="text" id="createDir" placeholder="Nhập tên thư mục" autocomplete="off">
+                <button class="ui button" id="btnCreateDir" onclick="createDir()">
+                    <i class="plus icon"></i>
+                </button>
+            </div>
+            <!-- end submit form new dir -->
+            <br>
+            <br>
+        </div>
+        <!-- list link -->
+        <div id="reloadLink">
+            <!-- btn del rename -->
+            <button class="circular ui icon positive basic button" id="delDir" onclick="delDir('<%= dir%>')"><i class="trash alternate outline icon"></i></button>
+            <button class="circular ui icon positive basic button" id="renameDir" onclick="renameDir()">Đổi tên thư mục hiện tại</button>
+            <br>
+            <br>
+            <div id="submitRenameDir" style="display: none;">
+                <div class="ui action input">
+                    <input type="text" id="inputRenameDir" placeholder="Nhập tên mới của thư mục" autocomplete="off">
+                    <button class="ui button" id="btnRenameDir" onclick="submitRenameDir('<%= dir%>')">
+                        <i class="exchange icon"></i>
+                    </button>
+                </div>
+                <!-- end btn del rename -->
+            </div>
+            <hr>
+            <h3>Danh sách link trong thư mục [
+                <%= dir%>]: </h3>
+            <!-- check empty -->
+            <%if(links.length === 0){%> (empty)
+                <!-- end check empty -->
+                <%}else {%>
+                    <table class="ui very basic collapsing celled table">
+                        <thead>
+                            <tr>
+                                <th><i class="linkify icon"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%links.forEach( (link, index) => {%>
+                                <tr>
+                                    <td>
+                                        <h4 class="ui image header">
+
+                                            <div class="content">
+                                                <a href="<%= link.address%>" target="_blank">
+                                                    <%= link.title%>
+                                                </a>
+                                                <br><br>
+                                                <button class="ui small negative basic button" onclick="delLink('<%= link.id%>','<%= dir%>')">Xóa</button>
+                                                <!-- selector -->
+                    <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')" class="ui dropdown">
+                        <%directories.forEach( directory => {%>
+                            <%if(directory == dir){%>
+                                <option value="<%= directory%>" selected>
+                                    <%= directory%>
+                                </option>
+
+                                <%}else{%>
+                                    <option value="<%= directory%>">
+                                        <%= directory%>
+                                    </option>
+
+                                    <%}%>
+                                        <%})%>
+                    </select>
+                    <button id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>')" class="ui small positive basic button"> Move </button>
+                    <!-- end selector -->
+                                            </div>
+                                        </h4>
+                                    </td>
+
+                                </tr>
+                                <%})%>
+
+                        </tbody>
+                    </table>
+                    
+
+                    <%}%>
+                        <!-- end list link -->
+        </div>
+        <!-- end container -->
+    </div>
+
+</body>
+
+</html>

@@ -9,7 +9,7 @@ function home(req, res) {
 }
 
 function deleteOneLink(req, res) {
-    const _id = req.params.id;
+    const _id = req.query.linkID;
     const { botID } = req.user;
     User.findOne({
         botID
@@ -28,7 +28,7 @@ function deleteOneLink(req, res) {
                 console.log(err)
                 return res.render('info')
             }
-            res.redirect('/')
+            res.send('ok')
         })
     }
 
@@ -83,10 +83,10 @@ function getLinkData(res, botID) {
         const name = user.name;
         const links = user.link.filter(link => link.directory === 'root')
         const directories = user.directory;
-
+        const image = user.image;
         //if(links.length === 0) empty = 'empty'
         //console.log('Link truyen zo hom ne: ', links)
-        res.render("index", { links, name, directories, dir: 'root', message: '' });
+        res.render("indexS", { links, name, image, directories, dir: 'root', message: '' });
     })
 }
 
@@ -130,7 +130,7 @@ function delDir(req, res) {
         if (err) return console.log(err)
         const directories = user.directory;
         if (dir === 'root') {
-            const message = 'Root cannot be deleted'
+            const message = 'Không thể xóa thư mục root'
             return res.render('./layouts/listDir', { directories, message })
         }
         const nonDeletedLink = user.link.filter(link => link.directory != dir)
@@ -153,9 +153,10 @@ function renameDir(req, res) {
     User.findOne({ userID }, (err, user) => {
         if (err) return console.log(err)
         var directories = user.directory;
-
-        if(inputRenameDir === 'root'){
-            return res.render('./layouts/listDir', {directories, message: 'Duplicate name'})
+        const isExist = directories.includes(inputRenameDir)
+        if(isExist)
+        {
+            return res.render('./layouts/listDir', {directories, message: 'Đổi trùng tên thư mục tồn tại'})
         }
         const index = directories.indexOf(dir);
         user.directory.splice(index, 1)

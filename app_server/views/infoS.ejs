@@ -1,5 +1,4 @@
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,18 +12,6 @@
     <div class="ui grid container">
         <div class="column">
             
-                    <%if(message === 'succeslogin'){%>
-                        <div class="ui message">
-                            <div class="header">
-                                Đăng nhập thành công
-                            </div>
-                            <p>Đăng ký thành công! Bây giờ bạn đã có thể sử dụng cách chức năng của @tuibittat. Gõ /help để biết thêm thông
-                                tin.
-                            </p>
-                            <a href="/">Chuyển sang trang chủ</a>
-            
-                        </div>
-                        <%}%>
                             <%if(message === 'nonelogin'){%>
                                 <div class="ui message">
                                     <div class="header">
@@ -32,7 +19,8 @@
                                     </div>
             
                                     <p>Hãy đăng nhập trước khi truy cập trang nhé.</p>
-                                    <a href="/login">Chuyển sang login</a>
+                                    
+                                    <a href="/login"><button class="ui primary basic button">Chuyển sang login</button></a>
             
                                 </div>
                                 <%}%>

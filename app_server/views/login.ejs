@@ -3,11 +3,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <% include ./partials/import %>
+    <title>Login - @tuibittat</title>
 </head>
+
 <body>
-    <a href="/auth/fb">
-        <button>Facebook Login</button>
-    </a>
+    <br>
+    <div class="ui grid container">
+            <div class="column">
+                    <div class="ui message">
+                            <div class="header">
+                                Đăng nhập Facebook
+                            </div>
+                            <p>Đăng nhập bằng facebook để bắt đầu #nguocdai @tuibittat nhé</p>
+                            <p><i>Inbox page <a href="https://www.facebook.com/tuibittat/" target="_blank">@tuibittat</a> để tìm hiểu thêm thông tin.</i></p>
+                            <a href="/auth/fb">
+                                <button class="ui primary basic button">Facebook Login</button>
+                            </a>
+                        </div>
+               
+            
+        </div>
+    </div>
+
+
 </body>
+
 </html>
