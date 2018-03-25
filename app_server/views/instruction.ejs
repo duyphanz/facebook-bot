@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ./partials/import %>
+        <title>Hướng dẫn</title>
+</head>
+
+<body>
+    <div class="ui container">
+        <br>
+        <div class="ui message">
+            <div class="header">
+                Xem cách #nguocdai @bot 
+            </div>
+            <p>This is the first @tuibittat's version, feel free to tell me how to make it better. Thanks</p>
+        </div>
+        <div class="ui embed" data-url="https://www.youtube.com/embed/yZUQVdHLiOw"></div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            $('.ui.embed').embed();
+        }
+    </script>
+
+</body>
+
+</html>
