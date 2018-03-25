@@ -15,7 +15,7 @@ function linkApprove(req, res) {
             pendingLink = pendingLink.concat(link);
         }
         //console.log('Link truyen zo hom ne: ', links)
-        res.render("linkApprove", { pendingLink});
+        res.render("linkApproveS", { pendingLink});
     })
 }
 

@@ -1,0 +1,52 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ./partials/import %>
+    <title>Sharing requests - @tuibittat</title>
+</head>
+
+<body>
+
+    <div class="ui container">
+        <h1>List links: </h1>
+        <%if(pendingLink) {%>
+            <table class="ui very basic collapsing celled table">
+                <thead>
+                    <tr>
+                        <th>Yêu cầu</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%pendingLink.forEach( link => {%>
+                        <tr>
+                            <td>
+                                <h4 class="ui image header">
+
+                                    <div class="content">
+                                        <a href="<%= link.address%>" target="_blank">
+                                            <%= link.title%>
+                                        </a>
+
+                                    </div>
+    </div>
+    </h4>
+    </td>
+    <td>
+        <a href="/admin/accept/<%= link.id%>/<%= link.botID%>"><button class="ui primary basic button">Accept</button></a>
+        <a href="/admin/reject/<%= link.id%>/<%= link.botID%>"><button class="ui negative basic button">Reject</button></a>
+    </td>
+    </tr>
+    <%})%>
+        </tbody>
+        </table>
+        <%}%>
+            </div>
+
+
+</body>
+
+</html>

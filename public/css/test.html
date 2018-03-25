@@ -16,23 +16,29 @@
 <body>
 
     <div class="ui container">
-        <button onclick="aclick()">CLICK</button>
-        <div class="ui basic modal">
-            
-            <div class="content">
-                <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
-            </div>
-            <div class="actions">
-                <div class="ui red basic cancel inverted button">
-                    <i class="remove icon"></i>
-                    No
-                </div>
-                <div class="ui green ok inverted button">
-                    <i class="checkmark icon"></i>
-                    Yes
-                </div>
-            </div>
-        </div>
+        <table class="ui very basic collapsing celled table">
+            <thead>
+              <tr><th>Employee</th>
+              <th>Correct Guesses</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <h4 class="ui image header">
+                    
+                    <div class="content">
+                      Lena
+                      
+                    </div>
+                  </div>
+                </h4></td>
+                <td>
+                  22
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
 
     </div>
 
@@ -41,25 +47,6 @@
 </body>
 
 <script>
-
-    function aclick() {
-        console.log('a')
-        $('.ui.basic.modal')
-            .modal({
-                closable: false,
-                onDeny: function () {
-                    window.alert('Wait not yet!');
-                    //return false;
-                },
-                onApprove: function () {
-                    window.alert('Approved!');
-                }
-            })
-            .modal('show')
-            ;
-
-    }
-
 
 </script>
 
