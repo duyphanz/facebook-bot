@@ -172,14 +172,16 @@
             })
             .modal('show');
             
-        //var result = confirm("Xóa link này chứ?");
-        
-           
-        
-        
+        //var result = confirm("Xóa link này chứ?");  
     }
-    function init() {
-        
-        
+
+    function showActionLink(index){
+        console.log('actionlink')
+        const btn = document.getElementById('actionLink' + index);
+        if(btn.style.display === 'none') return btn.style.display = 'block'
+        btn.style.display = 'none';
+    }
+
+    function init() {   
     }
     window.onload = init();

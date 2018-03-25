@@ -124,8 +124,12 @@
                                                 <a href="<%= link.address%>" target="_blank">
                                                     <%= link.title%>
                                                 </a>
+                                                <button class="ui mini basic button" onclick="showActionLink('<%= index%>')">
+                                                        <i class="angle down icon"></i>
+                                                </button>
                                                 <br>
                                                 <br>
+                                                <div id="actionLink<%= index%>" style="display: none;">
                                                 <button class="ui small negative basic button" onclick="delLink('<%= link.id%>','<%= dir%>')">Xóa</button>
                                                 <!-- selector -->
                                                 <select id="selDir<%= index%>" onchange="showMoveButton('<%= index%>')" class="ui dropdown">
@@ -143,6 +147,7 @@
                                                                 <%}%>
                                                                     <%})%>
                                                 </select>
+                                                </div>
                                                 <button id="moveDir<%= index%>" style="display: none;" onclick="moveDir('<%= link.id%>','selDir<%= index%>', 'moveDir<%= index%>')"
                                                     class="ui small positive basic button"> Move </button>
                                                 <!-- end selector -->
