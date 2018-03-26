@@ -197,6 +197,7 @@ function postingFB(link, user, note) {
         "uri": "https://graph.facebook.com/194442694037009/feed?message=" + desc + "&link=" + link + "&access_token=" + config.pageToken,
         "method": "POST",
     }, (err, res, body) => {
+        if(body) console.log('Posting return: ', body)
         if (!err) {
             console.log('Shared link!')
         } else {
