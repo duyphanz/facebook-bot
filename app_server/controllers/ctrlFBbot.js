@@ -188,7 +188,7 @@ function fbbot(req, res) {
     })
 }
 
-function postingFB(link, user, note) {
+function postingFB(link, user, note, cb) {
     const desc =
         `${note}
      
@@ -200,8 +200,10 @@ function postingFB(link, user, note) {
         if(body) console.log('Posting return: ', body)
         if (!err) {
             console.log('Shared link!')
+            return cb(res.statusCode)
         } else {
             console.error("Unable to share link:" + err);
+            return cb(res.statusCode)
         }
     })
 }

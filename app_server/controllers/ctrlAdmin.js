@@ -31,8 +31,11 @@ function approveLink (req, res) {
         user.link[index].state = 'accepted';
         user.save((err, user) => {
             if(err) console.log(err);
-            ctrlFBbot.callSendAPI(bot, 'Duyệt chia sẻ bài viết *' + user.link[index].title + '* lên trang chủ rồi nhé. Truy cập page @tuibittat để thấy bài chia sẻ của bạn :)');
-            ctrlFBbot.postingFB(user.link[index].address, user, sharingNote);
+            
+            ctrlFBbot.postingFB(user.link[index].address, user, sharingNote, (statusCode) =>{
+                if(statusCode === 200) return ctrlFBbot.callSendAPI(bot, 'Duyệt chia sẻ bài viết *' + user.link[index].title + '* lên trang chủ rồi nhé. Truy cập page @tuibittat để thấy bài chia sẻ của bạn :)');
+                ctrlFBbot.callSendAPI(bot, 'Không thể chia sẻ bài viết *' + user.link[index].title + '* lên trang chủ vì có lỗi hix');
+            });
             res.redirect('/admin/linkApprove');
         })
     })
